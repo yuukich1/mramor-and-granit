@@ -15,13 +15,12 @@ class ProductsService:
 
     @staticmethod
     async def create(data: ProductCreateSchemas, uow: IUnitOfWork):
+        logger.info(f"Creating new product: {data}")
         async with uow:
-            logger.info(f"Product new category: {data}")
-            async with uow:
-                new_product = await uow.products.create(data)
-                await uow.commit()
-                logger.success(f"Product created with ID: {new_product.id}")
-                return new_product
+            new_product = await uow.products.create(data)
+            await uow.commit()
+            logger.success(f"Product created with ID: {new_product.id}")
+            return new_product
 
     @staticmethod
     async def upload_image_by_product(product_id: int, file: UploadFile, uow: IUnitOfWork):
@@ -54,11 +53,12 @@ class ProductsService:
             return updated_product
 
     @staticmethod
-    async def get_many_by_filters(uow: IUnitOfWork, **filters):
+    async def get_many_by_filters(uow: IUnitOfWork, limit: int = 10, page: int = 0, **filters):
         active_filters = clean_dict(filters)
         logger.info(f"Getting products with filters: {active_filters}")
         async with uow:
-            result = await uow.products.get_all(**active_filters)
+            offset = page * limit if page not in (0, 1) else 0
+            result = await uow.products.get_all(limit=limit, offset=offset, **active_filters)
             logger.info(f"Found {len(result)} products")
             return result
 

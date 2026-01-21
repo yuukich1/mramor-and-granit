@@ -96,8 +96,12 @@ class SQLAlchemyRepository(AbstractRepository):
         entity = result.scalars().first()
         return entity.to_schemas()
 
-    async def get_all(self, **kwargs):
+    async def get_all(self, limit: int = None, offset: int = None, **kwargs):
         stmt = select(self.entity).filter_by(**kwargs)
+        if limit is not None:
+            stmt = stmt.limit(limit)
+        if offset is not None:
+            stmt = stmt.offset(offset)
         result = await self._execute(stmt)
         return [entity.to_schemas() for entity in result.scalars().all()]
 
