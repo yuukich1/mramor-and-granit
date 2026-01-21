@@ -120,7 +120,7 @@ Access the interactive API documentation:
 ### Authentication (`/auth`)
 
 - `POST /auth/register` - User registration
-  - Request: `UserCreateSchema` (username, password, email, phone)
+  - Request: `UserCreateSchema` (username, password)
   - Response: Registered user details
   
 - `POST /auth/login` - User login (Form data)

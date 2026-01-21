@@ -92,7 +92,7 @@ class AuthService:
     async def get_admin_by_jwt(cls, token: str = Depends(oauth2_scheme)):
         logger.debug("get_admin_by_jwt called (token not logged)")
         user_data = await cls.__decode_jwt(token)
-        if bool(user_data.get('access')):
+        if user_data.get('access') != 'False':
             logger.warning(
                 f"get_admin_by_jwt: access denied for user_id='{user_data.get('user_id')}', insufficient role")
             raise HTTPException(status_code=403)
