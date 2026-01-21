@@ -19,7 +19,7 @@ async def update(id: int, file: UploadFile, uow: UOWdep, admin: AdminDep) -> Pro
     return await ProductsService.upload_image_by_product(product_id=id, file=file, uow=uow)
 
 @router.get('/')
-async def get_products_by_filter(uow: UOWdep, admin: AdminDep, limit: int = 20, page: int = 0, name: str | None = None, id: int | None= None, price: float | None = None) -> List[ProductSchema]:
+async def get_products_by_filter(uow: UOWdep, limit: int = 20, page: int = 0, name: str | None = None, id: int | None= None, price: float | None = None) -> List[ProductSchema]:
     logger.debug(f"GET /products - Filters: name={name}, id={id}, price={price}, limit={limit}, page={page}")
     return await ProductsService.get_many_by_filters(uow=uow, limit=limit, page=page, name=name, id=id, price=price)
 
