@@ -1,10 +1,12 @@
-# Mramor and Granit Backend
+# Mramor and Granit
 
-A FastAPI-based REST API for managing products and categories with image upload functionality.
+A full-stack web application for managing marble and granite products, featuring a FastAPI backend and Next.js frontend.
 
 ## Overview
 
-This is a backend service built with FastAPI that provides endpoints for managing product categories and products. It features a clean architecture with separation of concerns through service, repository, and schema layers, using SQLAlchemy for async database operations with PostgreSQL.
+This is a complete e-commerce platform with:
+- **Backend**: A FastAPI-based REST API for managing products and categories with image upload functionality, user authentication, and admin dashboard access.
+- **Frontend**: A modern Next.js application with React, Tailwind CSS, and Radix UI for managing the user interface.
 
 ## Features
 
@@ -20,6 +22,27 @@ This is a backend service built with FastAPI that provides endpoints for managin
 
 ## Tech Stack
 
+### Frontend
+
+- **Framework**: Next.js 16.1.4 - React 19.2.3 with server-side rendering and static generation
+- **Language**: TypeScript 5 for type-safe development
+- **Styling**: 
+  - Tailwind CSS 4 for utility-first CSS
+  - PostCSS 4 for CSS processing
+- **UI Components**: 
+  - Radix UI (via @radix-ui/react-slot) for accessible component primitives
+  - Lucide React 0.562.0 for beautiful icons
+- **Animation**: Motion 12.28.1 for smooth animations
+- **Utilities**: 
+  - clsx 2.1.1 for conditional classNames
+  - tailwind-merge 3.4.0 for merging Tailwind classes
+  - class-variance-authority 0.7.1 for component styling patterns
+- **Development Tools**:
+  - ESLint 9 for code linting
+  - TypeScript for static type checking
+
+### Backend
+
 - **Framework**: FastAPI 0.128.0+
 - **Database**: PostgreSQL with SQLAlchemy ORM
 - **Async Driver**: asyncpg 0.31.0+
@@ -30,60 +53,89 @@ This is a backend service built with FastAPI that provides endpoints for managin
 ## Project Structure
 
 ```
-backend/
-├── src/
-│   ├── main.py                 # FastAPI application entry point
-│   ├── config.py              # Configuration & logging setup
-│   ├── dependencies.py        # FastAPI dependencies (UoW, Admin auth)
-│   ├── models/                # SQLAlchemy ORM models
-│   │   ├── base.py            # Base model with timestamps
-│   │   ├── categories.py      # Category model
-│   │   ├── products.py        # Product model
-│   │   ├── users.py           # User model for authentication
-│   │   ├── callback.py        # Callback request model
-│   ├── repository/            # Data access layer
-│   │   ├── categories.py      # Category repository
-│   │   ├── products.py        # Product repository
-│   │   ├── users.py           # User repository
-│   │   ├── callback.py        # Callback repository
-│   ├── routes/                # API endpoints
-│   │   ├── categories.py      # Category endpoints
-│   │   ├── products.py        # Product endpoints
-│   │   ├── auth.py            # Authentication endpoints
-│   │   ├── callback.py        # Callback endpoints
-│   ├── schemas/               # Pydantic request/response models
-│   │   ├── categories.py      # Category schemas
-│   │   ├── products.py        # Product schemas
-│   │   ├── users.py           # User schemas
-│   │   ├── callback.py        # Callback schemas
-│   ├── service/               # Business logic layer
-│   │   ├── categories.py      # Category service
-│   │   ├── products.py        # Product service
-│   │   ├── auth.py            # Authentication service
-│   │   ├── callback.py        # Callback service
-│   ├── utils/                 # Utility functions
-│   │   ├── connect.py         # Database connection
-│   │   ├── repository.py      # Repository base classes
-│   │   ├── unit_of_work.py    # Unit of work pattern
-│   │   ├── tg_sender.py       # Telegram notifications
-│   │   └── utils.py           # Helper functions
-│   ├── static/                # Static files storage
-│   │   └── products/          # Product images
-│   └── logs/                  # Application logs
-│       ├── app.log            # General logs (DEBUG+)
-│       └── errors.log         # Error logs only
-└── pyproject.toml             # Project dependencies and metadata
+mramor-and-granit/
+├── backend/                    # FastAPI REST API
+│   ├── src/
+│   │   ├── main.py                 # FastAPI application entry point
+│   │   ├── config.py              # Configuration & logging setup
+│   │   ├── dependencies.py        # FastAPI dependencies (UoW, Admin auth)
+│   │   ├── models/                # SQLAlchemy ORM models
+│   │   │   ├── base.py            # Base model with timestamps
+│   │   │   ├── categories.py      # Category model
+│   │   │   ├── products.py        # Product model
+│   │   │   ├── users.py           # User model for authentication
+│   │   │   ├── callback.py        # Callback request model
+│   │   ├── repository/            # Data access layer
+│   │   │   ├── categories.py      # Category repository
+│   │   │   ├── products.py        # Product repository
+│   │   │   ├── users.py           # User repository
+│   │   │   ├── callback.py        # Callback repository
+│   │   ├── routes/                # API endpoints
+│   │   │   ├── categories.py      # Category endpoints
+│   │   │   ├── products.py        # Product endpoints
+│   │   │   ├── auth.py            # Authentication endpoints
+│   │   │   ├── callback.py        # Callback endpoints
+│   │   ├── schemas/               # Pydantic request/response models
+│   │   │   ├── categories.py      # Category schemas
+│   │   │   ├── products.py        # Product schemas
+│   │   │   ├── users.py           # User schemas
+│   │   │   ├── callback.py        # Callback schemas
+│   │   ├── service/               # Business logic layer
+│   │   │   ├── categories.py      # Category service
+│   │   │   ├── products.py        # Product service
+│   │   │   ├── auth.py            # Authentication service
+│   │   │   ├── callback.py        # Callback service
+│   │   ├── utils/                 # Utility functions
+│   │   │   ├── connect.py         # Database connection
+│   │   │   ├── repository.py      # Repository base classes
+│   │   │   ├── unit_of_work.py    # Unit of work pattern
+│   │   │   ├── tg_sender.py       # Telegram notifications
+│   │   │   └── utils.py           # Helper functions
+│   │   ├── static/                # Static files storage
+│   │   │   └── products/          # Product images
+│   │   └── logs/                  # Application logs
+│   │       ├── app.log            # General logs (DEBUG+)
+│   │       └── errors.log         # Error logs only
+│   └── pyproject.toml             # Project dependencies and metadata
+│
+└── frontend/                   # Next.js Web Application
+    ├── app/                        # Next.js app directory
+    │   ├── layout.tsx              # Root layout component
+    │   ├── page.tsx                # Home page
+    │   ├── globals.css             # Global styles
+    │   └── favicon.ico             # Site favicon
+    ├── components/                 # Reusable React components
+    │   ├── header/                 # Header and navigation
+    │   │   ├── navbar.tsx          # Navigation bar component
+    │   │   └── nav-items.ts        # Navigation items configuration
+    │   ├── footer/                 # Footer section
+    │   │   ├── footer.tsx          # Footer component
+    │   │   └── services-items.ts   # Footer services items
+    │   ├── main/                   # Main content components
+    │   │   └── hero.tsx            # Hero section
+    │   ├── map/                    # Map integration
+    │   │   └── map.tsx             # Map component
+    │   └── ui/                     # UI utility components
+    │       ├── button.tsx          # Button component
+    │       └── utils.ts            # UI utilities
+    ├── public/                     # Static public assets
+    ├── package.json                # Project dependencies
+    ├── tsconfig.json               # TypeScript configuration
+    ├── next.config.ts              # Next.js configuration
+    ├── postcss.config.mjs           # PostCSS configuration
+    ├── eslint.config.mjs            # ESLint configuration
+    └── README.md                   # Frontend-specific documentation
 ```
 
 ## Installation
 
-### Prerequisites
+### Backend Prerequisites
 
 - Python 3.14+
 - PostgreSQL database
 - Poetry (for dependency management)
 
-### Setup
+### Backend Setup
 
 1. Clone the repository:
 ```bash
@@ -101,11 +153,35 @@ poetry install
 DATABASE_URL=postgresql+asyncpg://user:password@localhost/dbname
 ```
 
+### Frontend Prerequisites
+
+- Node.js 18+ or 20+
+- npm or yarn package manager
+
+### Frontend Setup
+
+1. Navigate to the frontend directory:
+```bash
+cd mramor-and-granit/frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Configure environment variables if needed (create `.env.local` file if required)
+
 ## Running the Application
+
+### Backend
 
 Start the development server:
 
 ```bash
+cd backend
 poetry run fastapi dev
 ```
 
@@ -114,6 +190,19 @@ The API will be available at `http://localhost:8000`
 Access the interactive API documentation:
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
+
+### Frontend
+
+Start the development server:
+
+```bash
+cd frontend
+npm run dev
+# or
+yarn dev
+```
+
+The frontend will be available at `http://localhost:3000`
 
 ## API Endpoints
 
@@ -193,6 +282,33 @@ Access the interactive API documentation:
 **Legend**: ⚠️ = Requires admin authentication
 
 ## Architecture
+
+### Frontend Architecture
+
+**Directory Structure**:
+- **app/** - Next.js 13+ App Router with layout system
+  - Handles routing and main page structure
+  - Global styles and layout configuration
+  
+- **components/** - Organized by feature/domain
+  - **header/** - Navigation and branding components
+  - **footer/** - Footer section with links and information
+  - **main/** - Hero section and main content components
+  - **map/** - Map integration for location display
+  - **ui/** - Reusable UI primitives and utility components
+
+**Styling Approach**:
+- Utility-first CSS with Tailwind
+- Component-based styling patterns using class-variance-authority
+- Responsive design with mobile-first approach
+
+**Key Features**:
+- Server-side rendering with Next.js
+- Responsive UI built with modern React patterns
+- Accessible components using Radix UI primitives
+- Type-safe development with TypeScript
+
+### Backend Architecture
 
 ### Layers
 
@@ -348,6 +464,22 @@ The API uses HTTP status codes and descriptive error messages:
 - `403 Forbidden` - User lacks permission (admin required)
 - `404 Not Found` - Resource not found
 - `500 Internal Server Error` - Server error (check logs)
+
+## Frontend Scripts
+
+The frontend includes the following npm scripts for development and production:
+
+```bash
+# Development
+npm run dev           # Start development server at http://localhost:3000
+
+# Production
+npm run build         # Build for production
+npm start             # Start production server
+
+# Code Quality
+npm run lint          # Run ESLint to check code quality
+```
 
 ## Contact
 
