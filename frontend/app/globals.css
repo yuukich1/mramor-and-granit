@@ -34,7 +34,7 @@
   --color-accent-foreground: var(--accent-foreground);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: white) {
   :root {
     --background: #0f0f0f;
     --foreground: #e5e7eb;
