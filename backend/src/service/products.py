@@ -57,7 +57,7 @@ class ProductsService:
         active_filters = clean_dict(filters)
         logger.info(f"Getting products with filters: {active_filters}")
         async with uow:
-            offset = page * limit if page not in (0, 1) else 0
+            offset = (page-1)*limit if page>1 else 0
             result = await uow.products.get_all(limit=limit, offset=offset, **active_filters)
             logger.info(f"Found {len(result)} products")
             return result
