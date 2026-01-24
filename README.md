@@ -102,29 +102,69 @@ mramor-and-granit/
     ├── app/                        # Next.js app directory
     │   ├── layout.tsx              # Root layout component
     │   ├── page.tsx                # Home page
-    │   ├── globals.css             # Global styles
-    │   └── favicon.ico             # Site favicon
+    │   └── globals.css             # Global styles
+    ├── api/                        # API client layer
+    │   └── callback.api.ts         # Callback API integration
     ├── components/                 # Reusable React components
+    │   ├── about/                  # About section components
+    │   │   ├── about.tsx           # Main about component
+    │   │   ├── about-advantages.tsx # Advantages showcase
+    │   │   ├── usServices.tsx      # Services integration
+    │   │   └── serv-items-about.ts # Service items configuration
+    │   ├── callback/               # Callback form section
+    │   │   ├── callbackForm.tsx    # Form component
+    │   │   ├── callbackContacts.tsx # Contact information
+    │   │   ├── callbackSection.tsx # Section container
+    │   │   └── tgBlock.tsx         # Telegram contact block
+    │   ├── examples/               # Examples/gallery section
+    │   │   ├── examples.tsx        # Examples container
+    │   │   └── gallery-items.ts    # Gallery configuration
     │   ├── header/                 # Header and navigation
     │   │   ├── navbar.tsx          # Navigation bar component
     │   │   └── nav-items.ts        # Navigation items configuration
     │   ├── footer/                 # Footer section
     │   │   ├── footer.tsx          # Footer component
-    │   │   └── services-items.ts   # Footer services items
+    │   │   └── services-items.ts   # Services items configuration
     │   ├── main/                   # Main content components
     │   │   └── hero.tsx            # Hero section
     │   ├── map/                    # Map integration
-    │   │   └── map.tsx             # Map component
+    │   │   ├── map.tsx             # Main map component
+    │   │   ├── mapInfoDesktop.tsx  # Desktop map info panel
+    │   │   ├── mapInfoMobile.tsx   # Mobile map info panel
+    │   │   └── mapSkeleton.tsx     # Loading skeleton
+    │   ├── products/               # Products section
+    │   │   ├── productSection.tsx  # Products container
+    │   │   ├── productGrid.tsx     # Products grid layout
+    │   │   ├── productCard.tsx     # Individual product card
+    │   │   ├── productModal.tsx    # Product detail modal
+    │   │   └── skeleton/           # Loading skeletons
+    │   │       ├── productSkeleton.tsx    # Grid skeleton
+    │   │       └── productSkeletonCard.tsx # Card skeleton
     │   └── ui/                     # UI utility components
     │       ├── button.tsx          # Button component
+    │       ├── card.tsx            # Card component
     │       └── utils.ts            # UI utilities
+    ├── hooks/                      # Custom React hooks
+    │   ├── useCallbackForm.ts      # Callback form logic
+    │   ├── useCategories.ts        # Categories data fetching
+    │   ├── useIsMobile.ts          # Mobile detection
+    │   ├── useProduct.ts           # Product data management
+    │   └── useYandexMap.ts         # Yandex Map integration
     ├── public/                     # Static public assets
+    ├── schemes/                    # Validation schemas
+    │   └── callback.schema.ts      # Callback validation schema
+    ├── types/                      # TypeScript type definitions
+    │   ├── callback.ts             # Callback types
+    │   ├── category.ts             # Category types
+    │   └── product.ts              # Product types
+    ├── utils/                      # Utility functions
+    │   ├── mapCategories.ts        # Category mapping utilities
+    │   └── prodView.ts             # Product view utilities
     ├── package.json                # Project dependencies
     ├── tsconfig.json               # TypeScript configuration
     ├── next.config.ts              # Next.js configuration
     ├── postcss.config.mjs           # PostCSS configuration
-    ├── eslint.config.mjs            # ESLint configuration
-    └── README.md                   # Frontend-specific documentation
+    └── eslint.config.mjs            # ESLint configuration
 ```
 
 ## Installation
@@ -290,23 +330,51 @@ The frontend will be available at `http://localhost:3000`
   - Handles routing and main page structure
   - Global styles and layout configuration
   
+- **api/** - API client layer
+  - Centralized API integration for callback requests
+  
 - **components/** - Organized by feature/domain
+  - **about/** - About section with advantages and services showcase
+  - **callback/** - Callback request form with Telegram integration
+  - **examples/** - Gallery and examples showcase
   - **header/** - Navigation and branding components
   - **footer/** - Footer section with links and information
   - **main/** - Hero section and main content components
-  - **map/** - Map integration for location display
+  - **map/** - Yandex Map integration with responsive info panels
+  - **products/** - Product catalog with grid, cards, and modal details
   - **ui/** - Reusable UI primitives and utility components
+
+- **hooks/** - Custom React hooks for data management
+  - Form validation and submission
+  - Data fetching and caching
+  - Responsive detection
+  - Map and product interactions
+
+- **types/** - TypeScript type definitions
+  - Type-safe data structures for API responses and components
+  
+- **utils/** - Utility functions
+  - Data transformation and mapping
+  - Product display utilities
+  
+- **schemes/** - Validation schemas
+  - Zod or similar validation for form inputs
 
 **Styling Approach**:
 - Utility-first CSS with Tailwind
 - Component-based styling patterns using class-variance-authority
 - Responsive design with mobile-first approach
+- Loading skeletons for better UX
 
 **Key Features**:
 - Server-side rendering with Next.js
-- Responsive UI built with modern React patterns
+- Responsive UI with mobile and desktop variants
 - Accessible components using Radix UI primitives
 - Type-safe development with TypeScript
+- Product filtering and pagination
+- Callback form with validation
+- Yandex Map integration
+- Loading states with skeleton screens
 
 ### Backend Architecture
 
