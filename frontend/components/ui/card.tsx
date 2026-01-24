@@ -8,7 +8,7 @@ export function Card({ className, ...props }: DivProps) {
     <div
       data-slot="card"
       className={cn(
-        "flex flex-col gap-6 rounded-xl border bg-card text-card-foreground",
+        "flex flex-col gap-4 rounded-xl border bg-card text-card-foreground",
         className
       )}
       {...props}
@@ -81,8 +81,8 @@ export function CardFooter({ className, ...props }: DivProps) {
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center px-6 pb-6",
-        "border-t pt-6",
+        "flex items-center px-6 pb-3",
+        " pt-6",
         className
       )}
       {...props}

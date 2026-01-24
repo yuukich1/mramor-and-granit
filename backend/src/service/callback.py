@@ -1,4 +1,3 @@
-from PIL.ImageChops import offset
 from fastapi import BackgroundTasks, HTTPException
 from loguru import logger
 from src.utils.tg_sender import send_callback_notification
@@ -23,7 +22,7 @@ class CallbackService:
     async def get_all(uow: IUnitOfWork, limit: int = 10, page: int = 1):
         logger.info("Fetching all callback requests")
         async with uow:
-            offset = page*limit if page not in (0,1) else 0
+            offset = (page-1)*limit if page>1 else 0
             result = await uow.callback.get_all(limit=limit, offset=offset)
             logger.info(f"Total callbacks found: {len(result)}")
             return result
