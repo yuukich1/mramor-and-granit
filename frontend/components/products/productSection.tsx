@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import { useCategories } from "@/hooks/useCategories";
@@ -14,6 +14,9 @@ import { ProductsSkeleton } from "./skeleton/productSkeleton";
 import { Product } from "@/types/product";
 import { ProductModal } from "./productModal";
 
+import { searchProducts } from "@/utils/searchProducts";
+import { ProductSearch } from "./productSearch";
+
 export function ProductsSection() {
     const { products, loadMore, hasMore, loading } = useProducts(6);
     const { categories } = useCategories();
@@ -22,12 +25,15 @@ export function ProductsSection() {
     const isInitialLoading = loading && products.length === 0;
 
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [query, setQuery] = useState("");
+
+    const filteredProducts = useMemo(() => {
+        return searchProducts(products, query);
+    }, [products, query]);
 
     return (
-        <section className="py-20 bg-white relative overflow-hidden"
-        id="catalog">
+        <section className="py-20 bg-white relative overflow-hidden" id="catalog">
             <div className="absolute top-1/2 left-0 w-96 h-96 bg-gradient-to-r from-amber-100/30 to-transparent rounded-full blur-3xl -translate-y-1/2" />
-
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -44,16 +50,24 @@ export function ProductsSection() {
                         Возможность создания индивидуального проекта.
                     </p>
                 </motion.div>
+                
+                <ProductSearch value={query} onChange={setQuery} />
 
                 {isInitialLoading ? (
                     <ProductsSkeleton />
                 ) : (
                     <>
-                        <ProductsGrid
-                            products={products}
-                            categoriesMap={categoriesMap}
-                            onSelect={setSelectedProduct}
-                        />
+                        {filteredProducts.length === 0 && query ? (
+                            <div className="text-center py-12">
+                                <p className="text-lg text-neutral-600">Ничего не найдено по запросу "{query}"</p>
+                            </div>
+                        ) : (
+                            <ProductsGrid
+                                products={filteredProducts}
+                                categoriesMap={categoriesMap}
+                                onSelect={setSelectedProduct}
+                            />
+                        )}
 
                         {loading && (
                             <div className="mt-8">
@@ -63,7 +77,7 @@ export function ProductsSection() {
                     </>
                 )}
 
-                {hasMore && !isInitialLoading && (
+                {hasMore && !isInitialLoading && !query && (
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}

@@ -115,7 +115,9 @@ export function Header() {
 
           <div className="hidden md:block">
             <Button className="bg-amber-600 hover:bg-amber-700 text-white shadow-sm">
-              Заказать звонок
+                <a href="#contact">
+                    Заказать звонок
+                </a>
             </Button>
           </div>
 
@@ -192,7 +194,9 @@ export function Header() {
                 className="mt-4"
               >
                 <Button className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8 w-full">
-                  Заказать звонок
+                  <a href="#contact">
+                    Заказать звонок
+                  </a>
                 </Button>
               </motion.div>
             </motion.div>
