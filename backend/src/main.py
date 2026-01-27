@@ -2,8 +2,20 @@ from fastapi import  FastAPI
 from loguru import logger
 from starlette.middleware.cors import CORSMiddleware
 from src.routes import *
+from src.config import frontend_host
+
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        frontend_host,
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 logger.info("Initializing FastAPI application")
 
@@ -32,10 +44,3 @@ async def shutdown_event():
     logger.info("Application shutdown")
 
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
