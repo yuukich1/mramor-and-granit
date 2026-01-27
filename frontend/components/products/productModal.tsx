@@ -145,9 +145,13 @@ export function ProductModal({
                                                     Оформить заказ
                                                 </h4>
                                                 <div className="space-y-4">
-                                                    <Button className="w-full h-12 bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-800 hover:to-amber-900 shadow-lg">
-                                                        <Phone className="w-4 h-4 mr-2" />
-                                                        Оставить заявку для заказа
+                                                    <Button className="w-full h-12 bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-800 hover:to-amber-900 shadow-lg"
+                                                        onClick={onClose}
+                                                    >
+                                                        <a href="#contact" className="flex items-center justify-center w-full h-full">
+                                                            <Phone className="w-4 h-4 mr-2" />
+                                                            Оставить заявку для заказа
+                                                        </a>
                                                     </Button>
                                                     {/* <Button
                                                         variant="outline"
