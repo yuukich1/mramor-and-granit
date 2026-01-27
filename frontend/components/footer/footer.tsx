@@ -85,7 +85,7 @@ export function Footer() {
                 <Phone className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-medium">+7 (495) 123-45-67</p>
+                <p className="font-medium">+7 (927) 766‒09‒33</p>
                 <p className="text-sm text-neutral-400">Единый контактный номер</p>
               </div>
             </div>

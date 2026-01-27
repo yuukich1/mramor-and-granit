@@ -27,7 +27,7 @@ export function Hero() {
     >
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/test.jpg"
+          src="/placeholder.png"
           alt="Мемориальные памятники"
           fill
           priority
@@ -75,14 +75,18 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4 mb-14"
           >
             <Button size="lg" className="px-8">
-              Смотреть каталог →
+              <a href="#catalog">
+                Смотреть каталог →
+              </a>
             </Button>
             <Button
               size="lg"
               variant="outline"
               className="border-white/40 text-black hover:bg-white/20 hover:text-white"
             >
-              Связаться с нами
+              <a href="#contact">
+                Связаться с нами
+              </a>
             </Button>
           </motion.div>
 

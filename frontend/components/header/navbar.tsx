@@ -57,7 +57,7 @@ export function Header() {
               className="flex items-center gap-2 hover:text-amber-700 transition"
             >
               <Phone className="h-4 w-4" />
-              +7 (495) 123-45-67
+              +7 (927) 766‒09‒33
             </a>
             <a
               href="mailto:info@memorial.ru"
@@ -115,7 +115,9 @@ export function Header() {
 
           <div className="hidden md:block">
             <Button className="bg-amber-600 hover:bg-amber-700 text-white shadow-sm">
-              Заказать звонок
+                <a href="#contact">
+                    Заказать звонок
+                </a>
             </Button>
           </div>
 
@@ -192,7 +194,9 @@ export function Header() {
                 className="mt-4"
               >
                 <Button className="bg-amber-600 hover:bg-amber-700 text-white text-lg py-6 px-8 w-full">
-                  Заказать звонок
+                  <a href="#contact">
+                    Заказать звонок
+                  </a>
                 </Button>
               </motion.div>
             </motion.div>
