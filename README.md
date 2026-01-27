@@ -1,54 +1,72 @@
-# Mramor and Granit
+# Mramor and Granit 🪨
 
-A full-stack web application for managing marble and granite products, featuring a FastAPI backend and Next.js frontend.
+A modern full-stack e-commerce platform for marble and granite products, featuring a FastAPI backend and Next.js 16 frontend with containerization support.
 
 ## Overview
 
-This is a complete e-commerce platform with:
-- **Backend**: A FastAPI-based REST API for managing products and categories with image upload functionality, user authentication, and admin dashboard access.
-- **Frontend**: A modern Next.js application with React, Tailwind CSS, and Radix UI for managing the user interface.
+This is a complete e-commerce platform built with:
+- **Backend**: FastAPI-based REST API with PostgreSQL, supporting products, categories, authentication, file uploads, and Telegram notifications
+- **Frontend**: Modern Next.js 16 application with React 19, TypeScript, Tailwind CSS 4, and responsive design
+- **Containerization**: Docker and Docker Compose for easy deployment and development
 
 ## Features
 
-- **Category Management**: Create, read, update, and delete product categories
-- **Product Management**: Full CRUD operations for products with filtering and pagination
-- **Image Upload & Storage**: Upload and retrieve product images with UUID-based file storage
-- **User Authentication**: JWT-based registration and login with secure password hashing
-- **Callback Requests**: Collect and manage callback requests with automatic Telegram notifications
-- **Admin Dashboard Access**: Protected endpoints requiring admin authentication
-- **Async Database Operations**: Built with SQLAlchemy and asyncpg for high-performance async database access
-- **Structured Logging**: Comprehensive logging with file rotation and retention policies
-- **Clean Architecture**: Organized code structure with clear separation of concerns
+### Core Features
+- ✅ **Category Management**: Create, read, update, and delete product categories with descriptions
+- ✅ **Product Management**: Full CRUD operations with filtering, pagination, and search functionality
+- ✅ **Image Upload & Storage**: UUID-based file storage with automatic directory creation
+- ✅ **User Authentication**: JWT-based registration and login with secure password hashing
+- ✅ **Callback Requests**: Collect customer inquiries with automatic Telegram notifications
+- ✅ **Admin Dashboard Access**: Protected endpoints requiring admin authentication
+
+### Technical Features
+- ✅ **Async Database Operations**: SQLAlchemy ORM with asyncpg for non-blocking database access
+- ✅ **Structured Logging**: loguru with file rotation and retention policies
+- ✅ **Clean Architecture**: Clear separation of concerns with layered architecture
+- ✅ **Type Safety**: Full TypeScript support on frontend, Pydantic validation on backend
+- ✅ **Responsive Design**: Mobile-first approach with Tailwind CSS
+- ✅ **API Documentation**: Interactive Swagger UI and ReDoc documentation
+- ✅ **Containerized**: Docker support for consistent development and deployment
+- ✅ **Modern Stack**: Latest stable versions of all major dependencies
 
 ## Tech Stack
 
 ### Frontend
 
-- **Framework**: Next.js 16.1.4 - React 19.2.3 with server-side rendering and static generation
+- **Framework**: Next.js 16.1.4 - React 19.2.3 with App Router and SSR/SSG
 - **Language**: TypeScript 5 for type-safe development
 - **Styling**: 
-  - Tailwind CSS 4 for utility-first CSS
-  - PostCSS 4 for CSS processing
-- **UI Components**: 
-  - Radix UI (via @radix-ui/react-slot) for accessible component primitives
-  - Lucide React 0.562.0 for beautiful icons
-- **Animation**: Motion 12.28.1 for smooth animations
-- **Utilities**: 
-  - clsx 2.1.1 for conditional classNames
-  - tailwind-merge 3.4.0 for merging Tailwind classes
-  - class-variance-authority 0.7.1 for component styling patterns
-- **Development Tools**:
-  - ESLint 9 for code linting
-  - TypeScript for static type checking
+  - Tailwind CSS 4 - utility-first CSS framework
+  - PostCSS 4 - CSS processing
+  - class-variance-authority 0.7.1 - component pattern library
+- **UI & Components**: 
+  - Radix UI primitives for accessible components
+  - Lucide React 0.562.0 - icon library
+  - Motion 12.28.1 - animation library
+  - clsx 2.1.1 and tailwind-merge 3.4.0 - className utilities
+- **Data Validation**: Zod 4.3.6 for schema validation
+- **HTTP Client**: Axios 1.13.2 for API requests
+- **Development**: ESLint 9, TypeScript compiler, Next.js dev tools
 
 ### Backend
 
-- **Framework**: FastAPI 0.128.0+
-- **Database**: PostgreSQL with SQLAlchemy ORM
-- **Async Driver**: asyncpg 0.31.0+
-- **Python**: 3.14+
-- **Configuration**: python-dotenv for environment management
-- **Logging**: loguru for structured logging
+- **Framework**: FastAPI 0.128.0+ with async/await support
+- **Database**: PostgreSQL with SQLAlchemy 2.0+ ORM
+- **Async Driver**: asyncpg 0.31.0+ for non-blocking database access
+- **Python**: 3.12 - 3.14
+- **Authentication**: PyJWT 2.10.1 for JWT tokens, passlib 1.7.4 for password hashing
+- **Validation**: Pydantic with extra types for enhanced validation
+- **Logging**: loguru 0.7.3 for structured logging
+- **File Upload**: FastAPI UploadFile with UUID-based naming
+- **Notifications**: aiogram 3.24.0 for Telegram integration
+- **Utilities**: python-dotenv 1.2.1, phonenumbers 9.0.22
+- **Package Manager**: Poetry for dependency management
+
+### DevOps & Deployment
+
+- **Containerization**: Docker & Docker Compose
+- **Base Images**: Python 3.14 slim for backend, Node.js LTS for frontend
+- **Orchestration**: Docker Compose for local development and container coordination
 
 ## Project Structure
 
@@ -169,40 +187,83 @@ mramor-and-granit/
 
 ## Installation
 
-### Backend Prerequisites
+### Prerequisites
 
-- Python 3.14+
-- PostgreSQL database
-- Poetry (for dependency management)
+- **Docker** and **Docker Compose** (recommended for development)
+- **OR** for local development:
+  - Python 3.12+ with Poetry
+  - Node.js 18+ or 20+
+  - PostgreSQL 12+
 
-### Backend Setup
+### Quick Start with Docker (Recommended)
 
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd mramor-and-granit/backend
+cd mramor-and-granit
 ```
 
-2. Install dependencies using Poetry:
+2. Create a `.env` file in the backend directory with your configuration:
+```bash
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/mramor_db
+SECRET_KEY=your_super_secret_key_here
+ALGORITHM=HS256
+TG_API_KEY=your_telegram_bot_token
+ADMIN_ID=your_telegram_admin_id
+FRONTEND_HOST=http://localhost:3000
+```
+
+3. Start with Docker Compose:
+```bash
+docker-compose up --build
+```
+
+This will:
+- Build and start PostgreSQL database
+- Build and start FastAPI backend (http://localhost:8000)
+- Build and start Next.js frontend (http://localhost:3000)
+
+4. Stop containers:
+```bash
+docker-compose down
+```
+
+### Local Development Setup
+
+#### Backend Setup
+
+1. Navigate to backend directory:
+```bash
+cd backend
+```
+
+2. Install dependencies with Poetry:
 ```bash
 poetry install
 ```
 
-3. Create a `.env` file in the `backend` directory with your configuration:
+3. Create `.env` file in backend directory:
 ```bash
-DATABASE_URL=postgresql+asyncpg://user:password@localhost/dbname
+DATABASE_URL=postgresql+asyncpg://user:password@localhost:5432/mramor_db
+SECRET_KEY=your_super_secret_key_here
+ALGORITHM=HS256
+TG_API_KEY=your_telegram_bot_token
+ADMIN_ID=your_telegram_admin_id
+FRONTEND_HOST=http://localhost:3000
 ```
 
-### Frontend Prerequisites
-
-- Node.js 18+ or 20+
-- npm or yarn package manager
-
-### Frontend Setup
-
-1. Navigate to the frontend directory:
+4. Start the development server:
 ```bash
-cd mramor-and-granit/frontend
+poetry run fastapi dev
+```
+
+The API will be available at `http://localhost:8000`
+
+#### Frontend Setup
+
+1. Navigate to frontend directory:
+```bash
+cd frontend
 ```
 
 2. Install dependencies:
@@ -212,31 +273,8 @@ npm install
 yarn install
 ```
 
-3. Configure environment variables if needed (create `.env.local` file if required)
-
-## Running the Application
-
-### Backend
-
-Start the development server:
-
+3. Start the development server:
 ```bash
-cd backend
-poetry run fastapi dev
-```
-
-The API will be available at `http://localhost:8000`
-
-Access the interactive API documentation:
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-
-### Frontend
-
-Start the development server:
-
-```bash
-cd frontend
 npm run dev
 # or
 yarn dev
@@ -244,9 +282,67 @@ yarn dev
 
 The frontend will be available at `http://localhost:3000`
 
-## API Endpoints
+## Running the Application
 
-### Authentication (`/auth`)
+### With Docker Compose (Recommended)
+
+```bash
+# Start all services
+docker-compose up
+
+# Start in background
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+### Backend - Local Development
+
+```bash
+cd backend
+poetry run fastapi dev
+```
+
+- **API**: http://localhost:8000
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+
+### Frontend - Local Development
+
+```bash
+cd frontend
+npm run dev
+```
+
+- **App**: http://localhost:3000
+
+### Production Build
+
+**Frontend:**
+```bash
+cd frontend
+npm run build
+npm start
+```
+
+**Backend:**
+```bash
+cd backend
+poetry install --no-dev
+poetry run uvicorn src.main:app --host 0.0.0.0 --port 8000
+```
+
+## API Documentation
+
+Full interactive API documentation is available at:
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+
+### API Endpoints Summary
 
 - `POST /auth/register` - User registration
   - Request: `UserCreateSchema` (username, password)
@@ -321,11 +417,50 @@ The frontend will be available at `http://localhost:3000`
 
 **Legend**: ⚠️ = Requires admin authentication
 
-## Architecture
+## Architecture Overview
 
-### Frontend Architecture
+### Layered Architecture Pattern
 
-**Directory Structure**:
+The application follows a clean, layered architecture with clear separation of concerns:
+
+```
+HTTP Requests
+    ↓
+┌─────────────────────────────────────┐
+│         Routes Layer                │  FastAPI endpoint handlers
+│  (HTTP requests validation)         │
+└────────────────┬────────────────────┘
+                 ↓
+┌─────────────────────────────────────┐
+│       Schemas Layer                 │  Pydantic validation models
+│  (Request/Response validation)      │
+└────────────────┬────────────────────┘
+                 ↓
+┌─────────────────────────────────────┐
+│       Service Layer                 │  Business logic orchestration
+│  (Business rules & logic)           │
+└────────────────┬────────────────────┘
+                 ↓
+┌─────────────────────────────────────┐
+│      Repository Layer               │  Database operations
+│  (Data persistence)                 │
+└────────────────┬────────────────────┘
+                 ↓
+┌─────────────────────────────────────┐
+│       Models Layer                  │  SQLAlchemy ORM
+│  (Database schema)                  │
+└────────────────┬────────────────────┘
+                 ↓
+        PostgreSQL Database
+```
+
+### Design Patterns Used
+
+1. **Unit of Work Pattern**: Manages database transactions and ensures data consistency
+2. **Repository Pattern**: Abstracts database operations behind a clean interface
+3. **Service Layer**: Contains business logic separate from HTTP concerns
+4. **Dependency Injection**: FastAPI dependencies for database session management
+5. **Async/Await**: All I/O operations are non-blocking
 - **app/** - Next.js 13+ App Router with layout system
   - Handles routing and main page structure
   - Global styles and layout configuration
@@ -374,61 +509,75 @@ The frontend will be available at `http://localhost:3000`
 - Product filtering and pagination
 - Callback form with validation
 - Yandex Map integration
+**Key Features**:
+- Server-side rendering with Next.js App Router
+- Responsive UI with mobile and desktop variants
+- Accessible components using Radix UI primitives
+- Type-safe development with TypeScript
+- Product filtering and pagination
+- Callback form with Zod validation
+- Yandex Map integration
 - Loading states with skeleton screens
+- Image optimization with Next.js Image component
 
 ### Backend Architecture
 
-### Layers
-
-1. **Routes** - HTTP endpoint handlers
+**Layered Architecture**:
+The backend follows a clean, layered architecture pattern:
+1. **Routes** - HTTP endpoint handlers (FastAPI)
 2. **Schemas** - Pydantic models for request/response validation
 3. **Service** - Business logic and orchestration
-4. **Repository** - Database operations
+4. **Repository** - Database operations and queries
 5. **Models** - SQLAlchemy ORM models
 6. **Utils** - Helper functions and database utilities
 
-### Patterns
-
-- **Unit of Work Pattern**: Manages database transactions and ensures data consistency
-- **Dependency Injection**: FastAPI dependencies for database session management
-- **Async Operations**: All I/O operations are non-blocking
+**Key Components**:
+- `main.py` - FastAPI application setup with CORS, route registration
+- `config.py` - Configuration management and logging setup
+- `dependencies.py` - FastAPI dependency injection (UnitOfWork, Admin auth)
+- Unit of Work pattern for transaction management
+- Async-first design with asyncpg for non-blocking database operations
 
 ## Configuration
 
-Configuration is managed through environment variables using `python-dotenv`. Create a `.env` file in the `backend` directory:
+### Environment Variables
+
+Create a `.env` file in the `backend` directory with the following variables:
 
 ```bash
 # Database Configuration
 DATABASE_URL=postgresql+asyncpg://user:password@localhost:5432/mramor_db
 
-# Security
-SECRET_KEY=your_super_secret_key_here
+# Security & JWT
+SECRET_KEY=your_super_secret_key_here_change_in_production
 ALGORITHM=HS256
 
 # Telegram Bot (for callback notifications)
 TG_API_KEY=your_telegram_bot_token
 ADMIN_ID=your_telegram_admin_id
+
+# Frontend Configuration
+FRONTEND_HOST=http://localhost:3000
 ```
 
-### Environment Variables
+### Environment Variable Descriptions
 
-- `DATABASE_URL` - PostgreSQL connection string with asyncpg driver
-- `SECRET_KEY` - Secret key for JWT token signing (change in production!)
-- `ALGORITHM` - JWT algorithm (default: HS256)
-- `TG_API_KEY` - Telegram bot API token for sending notifications
+- `DATABASE_URL` - PostgreSQL connection string with asyncpg driver for async operations
+- `SECRET_KEY` - Secret key for JWT token signing ⚠️ **Must be changed in production!**
+- `ALGORITHM` - JWT algorithm (HS256 recommended)
+- `TG_API_KEY` - Telegram bot API token (get from @BotFather)
 - `ADMIN_ID` - Telegram chat ID to receive callback notifications
+- `FRONTEND_HOST` - Frontend URL for CORS configuration
 
-## Logging
+## Logging System
 
-### Overview
-
-The application uses **loguru** for structured, reliable logging. Logs are automatically captured at multiple levels with rotation and retention policies.
+The application uses **loguru** for structured, professional logging:
 
 ### Log Files
 
-Logs are stored in the `logs/` directory:
+Logs are stored in the `logs/` directory with automatic rotation and retention:
 
-- **`app.log`** - General application logs (all levels from DEBUG and above)
+- **`app.log`** - General application logs (DEBUG and above)
   - Rotation: 10 MB per file
   - Retention: 7 days
   
@@ -438,59 +587,28 @@ Logs are stored in the `logs/` directory:
 
 ### Log Levels
 
-The application uses the following log levels:
+| Level | Usage | Examples |
+|-------|-------|----------|
+| `DEBUG` | Detailed information for development | Router initialization, database operations |
+| `INFO` | General informational messages | Application startup, successful operations |
+| `WARNING` | Potentially problematic situations | Deprecated features, unusual conditions |
+| `ERROR` | Error messages for failed operations | Database errors, validation failures |
+| `CRITICAL` | Critical system errors | Fatal failures, system shutdown |
 
-- `DEBUG` - Detailed information for debugging (router initialization, database operations)
-- `INFO` - General informational messages (application startup/shutdown, successful operations)
-- `WARNING` - Warning messages for potentially problematic situations
-- `ERROR` - Error messages for failed operations
-- `CRITICAL` - Critical system errors
-
-### Console Output
-
-- **Console (stdout)**: INFO level and above with color formatting for easy readability
-- **File Output**: DEBUG level and above with full timestamp and context
-
-### Example Log Entry
+### Example Log Entries
 
 ```
-2026-01-21 14:30:45 | INFO     | main:startup_event:25 - Application startup - API is ready to accept requests
-2026-01-21 14:31:02 | DEBUG    | routes.products:create:16 - POST /products - Creating product: "Marble Tiles"
-2026-01-21 14:31:03 | INFO     | service.products:create:20 - Creating new product: ProductCreateSchemas(...)
-2026-01-21 14:31:03 | SUCCESS  | service.products:create:23 - Product created with ID: 42
-2026-01-21 14:31:05 | DEBUG    | routes.callback:create_callback:13 - POST /callback - New callback from John Doe
-2026-01-21 14:31:05 | INFO     | service.callback:create_callback:18 - Creating new callback request for: John Doe
-2026-01-21 14:31:06 | SUCCESS  | service.callback:create_callback:21 - Callback saved to DB with ID: 7
-2026-01-21 14:31:06 | INFO     | service.callback:create_callback:23 - Telegram notification task added for callback ID: 7
-2026-01-21 14:35:10 | ERROR    | service.products:update:95 - Failed to update: Product 999 not found
+2026-01-21 14:30:45 | INFO  | main:startup_event - Application startup - API is ready
+2026-01-21 14:31:02 | DEBUG | routes.products:create - POST /products - Creating: "Marble"
+2026-01-21 14:31:03 | INFO  | service.products:create - Creating new product
+2026-01-21 14:31:06 | INFO  | service.callback:create - Telegram notification queued
+2026-01-21 14:35:10 | ERROR | service.products:update - Product 999 not found
 ```
 
-### Log Patterns by Component
-
-**Routes (DEBUG)**: HTTP endpoint information - method, path, request params
-```
-DEBUG | routes.products:create:16 - POST /products - Creating product: "Product Name"
-```
-
-**Service (INFO/SUCCESS/ERROR)**: Business logic - operations, results, failures
-```
-INFO | service.categories:create:15 - Creating new category: CategoryCreateSchemas(...)
-SUCCESS | service.categories:create:18 - Category created with ID: 5
-ERROR | service.products:update:95 - Failed to update: Product 999 not found
-```
-
-**Application (INFO)**: Startup/shutdown events
-```
-INFO | main:startup_event:25 - Application startup - API is ready to accept requests
-INFO | main:shutdown_event:30 - Application shutdown
-```
-
-### Accessing Logs
-
-During development, you can monitor logs in real-time:
+### Monitoring Logs in Development
 
 ```bash
-# Watch the main application log
+# Watch main application log
 tail -f logs/app.log
 
 # Watch error logs
@@ -498,28 +616,47 @@ tail -f logs/errors.log
 
 # Search for specific patterns
 grep "ERROR" logs/app.log
-grep "Product" logs/app.log
-grep "CALLBACK" logs/app.log
+grep "product" logs/app.log
+grep "callback" logs/app.log
 
 # Watch specific service logs
-grep "products" logs/app.log
-grep "categories" logs/app.log
-grep "auth" logs/app.log
+grep "products\|categories\|auth" logs/app.log
 ```
 
-## Security
+## Security & Best Practices
 
-### Authentication
+### Authentication & Authorization
 
-- **JWT Tokens**: Uses JWT with HS256 algorithm for stateless authentication
-- **Password Hashing**: SHA256-based password hashing with passlib
-- **Admin Protection**: Sensitive endpoints require admin JWT token
+- **JWT Tokens**: Stateless authentication using JWT with HS256 algorithm
+  - Access tokens for API authentication
+  - Refresh tokens for long-lived sessions
+  
+- **Password Security**: 
+  - SHA256-based hashing with passlib
+  - Secure password storage in PostgreSQL
+  
+- **Admin Protection**: 
+  - Admin-only endpoints require valid admin JWT token
+  - Protected routes: categories (create/update/delete), products (create/update/delete), callbacks (list/delete)
 
 ### File Upload Security
 
-- **UUID Naming**: Uploaded images are renamed with UUID to prevent filename conflicts
-- **Extension Detection**: File types are validated based on extension
-- **Isolated Storage**: Images stored in `static/products/` directory
+- **UUID-Based Naming**: Uploaded images renamed with UUID to prevent filename conflicts
+- **Type Validation**: File extensions validated based on content
+- **Isolated Storage**: Product images stored in `static/products/` directory
+- **Access Control**: Image retrieval available to all users, upload restricted to admins
+
+### Database Security
+
+- **Connection Security**: PostgreSQL connections via asyncpg with SSL support (configurable)
+- **SQL Injection Prevention**: SQLAlchemy ORM with parameterized queries
+- **Async Operations**: Non-blocking queries prevent timeout attacks
+
+### CORS Configuration
+
+- Configured via `FRONTEND_HOST` environment variable
+- Restricts API access to authorized frontend domain
+- Credentials allowed for authenticated requests
 
 ## Error Handling
 
@@ -535,20 +672,127 @@ The API uses HTTP status codes and descriptive error messages:
 
 ## Frontend Scripts
 
-The frontend includes the following npm scripts for development and production:
+All npm scripts are available in the frontend directory:
 
 ```bash
-# Development
-npm run dev           # Start development server at http://localhost:3000
-
-# Production
+npm run dev           # Start development server (http://localhost:3000)
 npm run build         # Build for production
 npm start             # Start production server
-
-# Code Quality
-npm run lint          # Run ESLint to check code quality
+npm run lint          # Run ESLint for code quality checks
 ```
 
-## Contact
+## Troubleshooting
 
-telegram: @ultimap
+### Database Connection Issues
+
+```bash
+# Check PostgreSQL is running and accessible
+psql -U postgres -h localhost -d mramor_db
+
+# If using Docker
+docker-compose logs db
+```
+
+### Port Already in Use
+
+If port 8000 (backend) or 3000 (frontend) are already in use:
+
+**Backend**:
+```bash
+poetry run fastapi dev --host localhost --port 8001
+```
+
+**Frontend**:
+```bash
+npm run dev -- -p 3001
+```
+
+### Image Upload Not Working
+
+- Ensure `static/products/` directory exists
+- Check file permissions: `chmod 755 static/products/`
+- Verify admin authentication token is valid
+- Check disk space availability
+
+### Telegram Notifications Not Received
+
+- Verify `TG_API_KEY` is correct
+- Check `ADMIN_ID` is set to your chat ID (get it from @userinfobot)
+- Ensure bot has permission to send messages
+- Check application logs: `tail -f logs/app.log | grep -i telegram`
+
+### Database Logs
+
+```bash
+# View Docker database logs
+docker-compose logs db
+
+# Connect directly to PostgreSQL
+docker exec -it mramor-db psql -U postgres
+```
+
+## Contributing
+
+When contributing to this project:
+
+1. Follow the existing code structure and patterns
+2. Maintain type safety (TypeScript on frontend, Pydantic on backend)
+3. Write descriptive commit messages
+4. Keep the README updated with any changes
+5. Test both frontend and backend changes
+
+
+## Performance Tips
+
+### Frontend Optimization
+
+- Next.js Image component for automatic image optimization
+- Code splitting via dynamic imports
+- Skeleton loading for better UX during data fetching
+- Debounced search and filter operations
+
+### Backend Optimization
+
+- Async/await throughout for non-blocking I/O
+- Database connection pooling via SQLAlchemy
+- Query optimization with proper indexes
+- Telegram notifications in background tasks
+
+## Production Deployment
+
+### Using Docker Compose
+
+1. Update `.env` with production values
+2. Change `SECRET_KEY` to a strong, random value
+3. Set `FRONTEND_HOST` to your production domain
+4. Run: `docker-compose -f docker-compose.yml up -d`
+
+### Manual Deployment
+
+**Backend**:
+```bash
+poetry install --no-dev
+poetry run uvicorn src.main:app --host 0.0.0.0 --port 8000 --workers 4
+```
+
+**Frontend**:
+```bash
+npm install
+npm run build
+npm start
+```
+
+## Related Documents
+
+- [Docker Setup Guide](DOCKER.md) - Detailed Docker and Docker Compose instructions
+- [API Documentation](http://localhost:8000/docs) - Interactive API docs (Swagger UI)
+
+## Contact & Support
+
+- **Telegram Backend**: [@ultimap](https://t.me/ultimap)
+- **Telegram Frontend**: [@Konaisya](https://t.me/Konaisya)
+- **Project Issues**: Create an issue in the repository
+
+## License
+
+This project is proprietary and confidential.
