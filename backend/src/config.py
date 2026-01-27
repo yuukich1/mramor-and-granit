@@ -27,6 +27,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 pwd_context = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
 
+frontend_host = os.getenv("FRONTEND_HOST", "localhost")
 
 def setup_logging():
     """Configure logging with both console and file outputs."""
