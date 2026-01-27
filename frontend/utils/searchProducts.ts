@@ -1,29 +1,41 @@
-import { Product } from "@/types/product";
-import { trigramSimilarity, normalizeText } from "./trigrams";
+import { IndexedProduct } from "./searchIndex";
+import { normalizeText, getTrigrams } from "./trigrams";
 
-const THRESHOLD = 0.07;
+const TRIGRAM_THRESHOLD = 0.3;
 
-export function searchProducts(
-    products: Product[],
+export function searchIndexedProducts(
+    indexed: IndexedProduct[],
     query: string
-): Product[] {
-    const normalizedQuery = normalizeText(query);
+) {
+    const q = normalizeText(query);
 
-    if (!normalizedQuery) {
-        return products;
+    if (!q) {
+        return indexed.map(i => i.product);
     }
 
-    return products
-        .map(product => {
-            const productText = normalizeText(
-                `${product.name} ${product.description ?? ""} ${product.tags?.join(" ") ?? ""}`
-            );
+    if (q.length < 4) {
+        return indexed
+            .filter(i => i.text.includes(q))
+            .map(i => i.product);
+    }
 
-            const score = trigramSimilarity(productText, normalizedQuery);
+    const qTrigrams = getTrigrams(q);
 
-            return { product, score };
+    return indexed
+        .map(i => {
+            let match = 0;
+
+            qTrigrams.forEach(tri => {
+                if (i.trigrams.has(tri)) {
+                    match += 1;
+                }
+            });
+
+            const score = match / qTrigrams.size;
+
+            return { product: i.product, score };
         })
-        .filter(item => item.score >= THRESHOLD)
+        .filter(i => i.score >= TRIGRAM_THRESHOLD)
         .sort((a, b) => b.score - a.score)
-        .map(item => item.product);
+        .map(i => i.product);
 }

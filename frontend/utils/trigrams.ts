@@ -1,7 +1,8 @@
 export function normalizeText(text: string): string {
     return text
         .toLowerCase()
-        .replace(/[^a-zа-яё0-9]/gi, "")
+        .replace(/[^a-zа-яё0-9\s]/gi, " ")
+        .replace(/\s+/g, " ")
         .trim();
 }
 
@@ -12,18 +13,17 @@ export function getTrigrams(text: string): Set<string> {
         return new Set();
     }
 
+    const padded = `  ${normalized} `;
     const trigrams = new Set<string>();
 
-    for (let i = 0; i <= normalized.length - 3; i += 1) {
-        trigrams.add(normalized.slice(i, i + 3));
+    for (let i = 0; i < padded.length - 2; i += 1) {
+        trigrams.add(padded.slice(i, i + 3));
     }
 
     return trigrams;
 }
 
 export function trigramSimilarity(a: string, b: string): number {
-    if (!a || !b) return 0;
-
     const aTrigrams = getTrigrams(a);
     const bTrigrams = getTrigrams(b);
 
@@ -31,11 +31,11 @@ export function trigramSimilarity(a: string, b: string): number {
 
     let intersection = 0;
 
-    aTrigrams.forEach(tri => {
-        if (bTrigrams.has(tri)) {
+    bTrigrams.forEach(tri => {
+        if (aTrigrams.has(tri)) {
             intersection += 1;
         }
     });
 
-    return (2 * intersection) / (aTrigrams.size + bTrigrams.size);
+    return intersection / bTrigrams.size;
 }

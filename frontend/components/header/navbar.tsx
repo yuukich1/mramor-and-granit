@@ -57,7 +57,7 @@ export function Header() {
               className="flex items-center gap-2 hover:text-amber-700 transition"
             >
               <Phone className="h-4 w-4" />
-              +7 (495) 123-45-67
+              +7 (927) 766‒09‒33
             </a>
             <a
               href="mailto:info@memorial.ru"

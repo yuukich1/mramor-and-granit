@@ -34,12 +34,12 @@ export function ProductSearch({
                     <input
                         value={value}
                         onChange={e => onChange(e.target.value)}
-                        placeholder="Найти памятник по названию или описанию..."
+                        placeholder="Поиск"
                         className="w-full pl-14 pr-14 py-5 bg-transparent text-neutral-800 placeholder:text-neutral-500 focus:outline-none text-lg rounded-2xl"
                     />
 
-                    <AnimatePresence mode="wait">
-                        {value ? (
+                    <AnimatePresence>
+                        {value && (
                             <motion.button
                                 key="clear"
                                 initial={{ opacity: 0, scale: 0.5 }}
@@ -47,23 +47,12 @@ export function ProductSearch({
                                 exit={{ opacity: 0, scale: 0.5 }}
                                 transition={{ type: "spring", stiffness: 300 }}
                                 onClick={() => onChange("")}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-amber-50 hover:bg-amber-100 active:scale-95 transition-all duration-200"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-amber-50 hover:bg-amber-100 active:scale-95"
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                             >
                                 <X className="w-4 h-4 text-amber-600" />
                             </motion.button>
-                        ) : (
-                            <motion.div
-                                key="hint"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="absolute right-4 top-1/2 -translate-y-1/2"
-                            >
-                                <kbd className="px-2 py-1.5 text-xs font-sans font-semibold text-neutral-400 bg-neutral-100 rounded-lg border border-neutral-200">
-                                    Ctrl + K
-                                </kbd>
-                            </motion.div>
                         )}
                     </AnimatePresence>
                 </div>

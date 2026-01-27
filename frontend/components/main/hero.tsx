@@ -27,7 +27,7 @@ export function Hero() {
     >
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/test.jpg"
+          src="/placeholder.png"
           alt="Мемориальные памятники"
           fill
           priority
