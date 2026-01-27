@@ -1,37 +1,25 @@
-# Build stage
 FROM python:3.12-slim as builder
 
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies including libpq-dev and gcc for psycopg2 build
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    libpq-dev \
+    gcc \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy project files
-COPY pyproject.toml ./
+COPY pyproject.toml poetry.lock ./
 
 # Install Python dependencies
 RUN pip install --no-cache-dir poetry && \
     poetry config virtualenvs.create false && \
-    poetry install --no-directory
+    poetry install --no-interaction --no-ansi --no-root
 
-# Production stage
-FROM python:3.12-slim
-
-WORKDIR /app
-
-# Install runtime dependencies only
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy installed packages from builder
-COPY --from=builder /usr/local/lib/python3.12/site-packages/ /usr/local/lib/python3.12/site-packages/
-COPY --from=builder /usr/local/bin/ /usr/local/bin/
-
-# Copy application code
+# Copy application source code
 COPY src/ ./src/
+
 
 # Expose port
 EXPOSE 8000
