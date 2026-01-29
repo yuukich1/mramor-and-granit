@@ -34,9 +34,9 @@ export function MapInfoMobile({ open, onToggle }: Props) {
                         </div>
 
                         <div className="space-y-4 text-neutral-700">
-                            <Row icon={MapPin} text="Самара, Матросова, 100" />
+                            <Row icon={MapPin} text="Cельское поселение Черноречье, село Черноречье, улица Нижние Пески, 10" />
                             <Row icon={Phone} text="+7 (927) 766-09-33" />
-                            <Row icon={Mail} text="info@krasnoebeloye.ru" />
+                            <Row icon={Phone} text="+7 (937) 989-01-53" />
                             <Row icon={Clock} text="09:00 – 17:00" />
                         </div>
                     </motion.div>

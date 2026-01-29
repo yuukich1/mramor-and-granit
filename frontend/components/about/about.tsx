@@ -21,16 +21,16 @@ export function About() {
             transition={{ duration: 0.7 }}
             className="relative order-2 lg:order-1"
           >
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl ">
               <Image
-                src="/test.jpg"
+                src="/aboutIMG.jpg"
                 alt="О компании"
                 fill
-                className="object-cover"
+                className="object-cover scale-170"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
-
+          
           </motion.div>
 
           <motion.div

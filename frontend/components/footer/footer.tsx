@@ -86,7 +86,7 @@ export function Footer() {
               </div>
               <div>
                 <p className="font-medium">+7 (927) 766‒09‒33</p>
-                <p className="text-sm text-neutral-400">Единый контактный номер</p>
+                <p className="text-sm text-neutral-400">Контактный номер</p>
               </div>
             </div>
             <div className="flex items-center gap-3 hover:text-amber-400 transition-colors cursor-pointer group">
@@ -94,8 +94,8 @@ export function Footer() {
                 <Mail className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-medium">info@memorial.ru</p>
-                <p className="text-sm text-neutral-400">Электронная почта</p>
+                <p className="font-medium">+7 (937) 989-01-53</p>
+                <p className="text-sm text-neutral-400">Контактный номер</p>
               </div>
             </div>
           </motion.div>
@@ -112,7 +112,7 @@ export function Footer() {
                 <MapPin className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-medium">г. Самара, ул. ​Александра Матросова, 100​, 1 этаж</p>
+                <p className="font-medium">Самарская область, Волжский район, сельское поселение Черноречье, село Черноречье, улица Нижние Пески, 10</p>
                 <p className="text-sm text-neutral-400">Основное производство</p>
               </div>
             </div>

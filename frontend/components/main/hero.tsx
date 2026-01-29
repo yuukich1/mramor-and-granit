@@ -27,7 +27,7 @@ export function Hero() {
     >
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/placeholder.png"
+          src="/heroIMG.jpg"
           alt="Мемориальные памятники"
           fill
           priority
@@ -49,7 +49,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 rounded-full bg-amber-500/20 border border-amber-400/30 px-5 py-2 text-sm text-amber-200 mb-6 backdrop-blur"
           >
             <Sparkles className="w-4 h-4" />
-            Более 5 лет сохраняем память
+            Более 15 лет сохраняем память
           </motion.div>
 
           <motion.h1
@@ -67,7 +67,7 @@ export function Hero() {
             className="text-lg sm:text-xl text-neutral-200 max-w-2xl mb-10"
           >
             Изготавливаем памятники из натурального гранита и мрамора.
-            Индивидуальный подход и гарантия качества 10 лет.
+            Индивидуальный подход и гарантия качества 15 лет.
           </motion.p>
 
           <motion.div
@@ -95,7 +95,7 @@ export function Hero() {
             className="grid grid-cols-3 gap-3 max-w-md"
           >
             <Stat icon={<Award />} value="15+" label="Лет опыта" />
-            <Stat icon={<Users />} value="100+" label="Работ" />
+            <Stat icon={<Users />} value="500+" label="Работ" />
             <Stat icon={<Sparkles />} value="100%" label="Гарантия" />
           </motion.div>
         </motion.div>
