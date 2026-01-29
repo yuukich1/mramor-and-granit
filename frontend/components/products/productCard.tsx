@@ -44,7 +44,8 @@ export function ProductCard({
                     <Image
                         src={getProductImageUrl(product)}
                         alt={product.name}
-                        fill
+                        width={450}
+                        height={400}
                         unoptimized
                         className="object-cover group-hover:scale-110 transition-transform duration-700"
                     />
