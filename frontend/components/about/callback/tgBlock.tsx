@@ -14,7 +14,7 @@ const TelegramIcon = () => (
 
 export function TelegramBlock() {
     return (
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 border border-blue-700 rounded-xl p-5 shadow-lg">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 border border-blue-700 rounded-xl p-5 shadow-lg w-max-7xl">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-4 text-white">
                     <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">

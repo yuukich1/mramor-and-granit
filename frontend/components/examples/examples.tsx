@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { GALLERY_ITEMS } from "./gallery-items";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { VKBlock } from "./vk";
 
 export function Examples() {
     const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -86,6 +87,7 @@ export function Examples() {
                         </motion.div>
                     ))}
                 </div>
+                <VKBlock />
             </div>
 
             {selectedImage !== null && (
@@ -269,6 +271,7 @@ export function Examples() {
                     </div>
                 </motion.div>
             )}
+            
         </section>
     );
 }

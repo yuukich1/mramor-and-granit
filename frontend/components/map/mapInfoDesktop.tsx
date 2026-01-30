@@ -14,7 +14,7 @@ export function MapInfoDesktop() {
             </h2>
 
             <div className="space-y-4 text-neutral-700">
-                <Item icon={MapPin} text="Самарская область, Волжский район, сельское поселение Черноречье, село Черноречье, улица Нижние Пески, 10" />
+                <Item icon={MapPin} text="Самарская область, Волжский район, сельское поселение Черноречье, село Черноречье, улица Нижние Пески, 12/2" />
                 <Item icon={Phone} text="+7 (927) 766-09-33" />
                 <Item icon={Phone} text="+7 (937) 989-01-53" />
                 <Item icon={Clock} text="09:00 – 17:00" />

@@ -21,7 +21,7 @@ export function CallbackContacts() {
         {
             icon: MapPin,
             title: "Адрес",
-            content: ["Село Черноречье, ул. Нижние Пески, 10"],
+            content: ["Село Черноречье, ул. Нижние Пески, 12/2"],
             color: "bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200",
             iconBg: "bg-emerald-600",
         },
@@ -39,14 +39,14 @@ export function CallbackContacts() {
             {items.map((item, index) => (
                 <div
                     key={index}
-                    className={`${item.color} border rounded-xl p-5 shadow-sm hover:shadow-lg transition-all duration-300`}
+                    className={`${item.color} border rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center justify-center text-center`}
                 >
-                    <div className="flex items-center gap-4">
-                        <div className={`${item.iconBg} w-12 h-12 rounded-xl flex items-center justify-center`}>
-                            <item.icon className="w-6 h-6 text-white" />
+                    <div className="flex flex-col items-center gap-4">
+                        <div className={`${item.iconBg} w-14 h-14 rounded-xl flex items-center justify-center`}>
+                            <item.icon className="w-8 h-8 text-white" />
                         </div>
-                        <div>
-                            <h3 className="font-medium text-neutral-800 mb-1">
+                        <div className="space-y-1">
+                            <h3 className="font-medium text-neutral-800">
                                 {item.title}
                             </h3>
                             {item.content.map((text, idx) => (

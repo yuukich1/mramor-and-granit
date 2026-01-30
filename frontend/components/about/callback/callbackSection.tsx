@@ -32,14 +32,14 @@ export function CallbackSection() {
                     </p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-2 gap-12 items-start">
+                <div className="grid lg:grid-cols-2 gap-12 items-start b mb-8">
                     <CallbackForm />
                     <div className="space-y-6">
-                        <CallbackContacts />
-                        <div className="h-12" />
-                        <TelegramBlock />
+                        <CallbackContacts />         
                     </div>
+                    
                 </div>
+                <TelegramBlock />
             </div>
         </section>
     );
