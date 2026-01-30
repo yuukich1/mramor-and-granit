@@ -44,7 +44,7 @@ export function Examples() {
                         Примеры наших работ
                     </h2>
                     <p className="text-lg text-neutral-600 max-w-2xl mx-auto drop-shadow-sm">
-                        Более 1000 выполненных проектов. Каждая работа — это память, воплощенная в камне
+                        Более 500 выполненных проектов. Каждая работа — это память, воплощенная в камне
                     </p>
                 </motion.div>
 
@@ -69,7 +69,7 @@ export function Examples() {
                                 />
                                 <div className="absolute bottom-0 left-0 right-0 p-4 z-10 text-white bg-gradient-to-t from-black/100 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <h3 className="font-serif text-lg mb-1 drop-shadow-md">{item.title}</h3>
-                                    <p className="text-sm text-neutral-200 drop-shadow-sm">{item.description}</p>
+                                    {/*<p className="text-sm text-neutral-200 drop-shadow-sm">{item.description}</p>*/}
                                 </div>
                             </div>
                         </motion.div>
