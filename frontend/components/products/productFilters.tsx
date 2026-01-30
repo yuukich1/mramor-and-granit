@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter, Tag, X, ChevronDown, Check } from "lucide-react";
+import { Filter, X, ChevronDown, Check } from "lucide-react";
 import { useState } from "react";
 
 import type { ProductFiltersState } from "@/types/filters";

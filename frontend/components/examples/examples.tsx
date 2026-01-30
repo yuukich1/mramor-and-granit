@@ -25,6 +25,17 @@ export function Examples() {
         setSelectedImage(GALLERY_ITEMS[nextIndex].id);
     };
 
+    useEffect(() => {
+        if (selectedImage !== null) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [selectedImage]);
+
     return (
         <section
             id="portfolio"
@@ -69,7 +80,7 @@ export function Examples() {
                                 />
                                 <div className="absolute bottom-0 left-0 right-0 p-4 z-10 text-white bg-gradient-to-t from-black/100 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <h3 className="font-serif text-lg mb-1 drop-shadow-md">{item.title}</h3>
-                                    {/*<p className="text-sm text-neutral-200 drop-shadow-sm">{item.description}</p>*/}
+                                    <p className="text-sm text-neutral-200 drop-shadow-sm">{item.description}</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -85,7 +96,16 @@ export function Examples() {
                     className="fixed inset-0 bg-black/95 backdrop-blur-lg z-50 p-0 sm:p-4"
                 >
                     <div className="h-full flex flex-col">
-                        <div className="flex-1 flex flex-col lg:flex-row">
+                        {isMobile && (
+                            <button
+                                onClick={() => setSelectedImage(null)}
+                                className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 flex-shrink-0"
+                            >
+                                <X className="w-5 h-5 text-white" />
+                            </button>
+                        )}
+
+                        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
                             {!isMobile ? (
                                 <div className="lg:w-1/2 flex items-center justify-center p-4">
                                     <motion.div
@@ -105,7 +125,7 @@ export function Examples() {
                                     </motion.div>
                                 </div>
                             ) : (
-                                <div className="flex-1 flex items-center justify-center p-4">
+                                <div className="flex-1 flex items-center justify-center p-4 pt-16">
                                     <motion.div
                                         initial={{ scale: 0.9, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
@@ -124,33 +144,50 @@ export function Examples() {
                                 </div>
                             )}
 
-                            <div className={`${isMobile ? 'w-full' : 'lg:w-1/2'} flex flex-col ${isMobile ? 'p-4' : 'p-4 lg:p-8'} text-white`}>
-                                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
-                                    <div className="flex-1">
+                            <div className={`${isMobile ? 'w-full flex-1 flex flex-col' : 'lg:w-1/2'} ${isMobile ? 'p-4 pb-20' : 'p-4 lg:p-8'} text-white`}>
+                                {!isMobile && (
+                                    <div className="flex justify-between items-start gap-4 mb-6">
+                                        <div className="flex-1">
+                                            <motion.h3
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.2 }}
+                                                className="text-2xl lg:text-3xl font-serif mb-3"
+                                            >
+                                                {GALLERY_ITEMS.find(item => item.id === selectedImage)?.title}
+                                            </motion.h3>
+                                        </div>
+
+                                        <button
+                                            onClick={() => setSelectedImage(null)}
+                                            className="w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 flex-shrink-0"
+                                        >
+                                            <X className="w-6 h-6 text-white" />
+                                        </button>
+                                    </div>
+                                )}
+
+                                <div className={`${isMobile ? 'flex-1 overflow-y-auto pr-2' : ''}`}>
+                                    {isMobile && (
                                         <motion.h3
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.2 }}
-                                            className="text-2xl lg:text-3xl font-serif mb-3"
+                                            className="text-xl font-serif mb-3 mt-4"
                                         >
                                             {GALLERY_ITEMS.find(item => item.id === selectedImage)?.title}
                                         </motion.h3>
-                                        <motion.p
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.3 }}
-                                            className="text-base lg:text-lg text-neutral-300"
-                                        >
-                                            {GALLERY_ITEMS.find(item => item.id === selectedImage)?.description}
-                                        </motion.p>
-                                    </div>
-
-                                    <button
-                                        onClick={() => setSelectedImage(null)}
-                                        className={`${isMobile ? 'absolute top-4 right-4' : ''} w-10 h-10 sm:w-12 sm:h-12 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 flex-shrink-0`}
+                                    )}
+                                    
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: isMobile ? 0.3 : 0.3 }}
+                                        className={`${isMobile ? 'text-base' : 'text-lg'} text-neutral-300`}
                                     >
-                                        <X className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                                    </button>
+                                        {GALLERY_ITEMS.find(item => item.id === selectedImage)?.description}
+                                        
+                                    </motion.div>
                                 </div>
 
                                 {!isMobile && (
@@ -183,28 +220,28 @@ export function Examples() {
                         </div>
 
                         {isMobile && (
-                            <div className="border-t border-white/20 mt-4 pt-4">
-                                <div className="flex items-center justify-between px-4">
+                            <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-4 pb-6 px-4">
+                                <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <button
                                             onClick={handlePrevious}
                                             className="w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center"
                                         >
-                                            <ChevronLeft className="w-5 h-5 text-white" />
+                                            <ChevronLeft className="w-6 h-6 text-white" />
                                         </button>
-                                        <span className="text-white text-sm">
+                                        <span className="text-white text-base font-medium">
                                             {GALLERY_ITEMS.findIndex(item => item.id === selectedImage) + 1} / {GALLERY_ITEMS.length}
                                         </span>
                                         <button
                                             onClick={handleNext}
                                             className="w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center"
                                         >
-                                            <ChevronRight className="w-5 h-5 text-white" />
+                                            <ChevronRight className="w-6 h-6 text-white" />
                                         </button>
                                     </div>
 
                                     <div className="flex gap-1.5">
-                                        {GALLERY_ITEMS.slice(0, 8).map((item) => (
+                                        {GALLERY_ITEMS.slice(0, Math.min(6, GALLERY_ITEMS.length)).map((item) => (
                                             <button
                                                 key={item.id}
                                                 onClick={() => setSelectedImage(item.id)}
@@ -219,7 +256,7 @@ export function Examples() {
                         {!isMobile && (
                             <div className="px-8 pb-4">
                                 <div className="flex justify-center gap-1.5">
-                                    {GALLERY_ITEMS.slice(0, 8).map((item) => (
+                                    {GALLERY_ITEMS.slice(0, Math.min(8, GALLERY_ITEMS.length)).map((item) => (
                                         <button
                                             key={item.id}
                                             onClick={() => setSelectedImage(item.id)}
