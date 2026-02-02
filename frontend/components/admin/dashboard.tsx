@@ -1,18 +1,116 @@
 "use client";
 
-import { 
-    BarChart, Bar, LineChart, Line, XAxis, YAxis, 
-    CartesianGrid, Tooltip, ResponsiveContainer 
+import {
+    BarChart,
+    Bar,
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
 } from "recharts";
-import { Package, Layers, MessageSquare, TrendingUp, Loader2 } from "lucide-react";
+import {
+    Package,
+    Layers,
+    MessageSquare,
+    TrendingUp,
+    Loader2,
+} from "lucide-react";
 import { useCallbacks } from "@/hooks/useCallbacks";
 import { useProducts } from "@/hooks/useProduct";
 import { useCategories } from "@/hooks/useCategories";
+import { useMemo, useState } from "react";
+
+type Period = "week" | "month" | "year" | "all";
+
+function formatDate(date: string) {
+    return new Date(date).toLocaleDateString("ru-RU");
+}
+
+function monthKey(date: string) {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${d.getMonth()}`;
+}
+
+function monthLabel(date: string) {
+    return new Date(date).toLocaleDateString("ru-RU", {
+        month: "short",
+        year: "numeric",
+    });
+}
+
+function calcChange(current: number, previous: number) {
+    if (previous === 0) return "+100%";
+    const diff = Math.round(((current - previous) / previous) * 100);
+    return `${diff > 0 ? "+" : ""}${diff}%`;
+}
+
+function isInPeriod(date: string, period: Period) {
+    if (period === "all") return true;
+
+    const now = new Date();
+    const d = new Date(date);
+
+    if (period === "week") {
+        const weekAgo = new Date();
+        weekAgo.setDate(now.getDate() - 7);
+        return d >= weekAgo;
+    }
+
+    if (period === "month") {
+        const monthAgo = new Date();
+        monthAgo.setMonth(now.getMonth() - 1);
+        return d >= monthAgo;
+    }
+
+    if (period === "year") {
+        const yearAgo = new Date();
+        yearAgo.setFullYear(now.getFullYear() - 1);
+        return d >= yearAgo;
+    }
+
+    return true;
+}
 
 export default function DashboardPage() {
     const { callbacks, loading: cbLoading } = useCallbacks();
     const { allProducts, loading: prodLoading } = useProducts();
     const { categories, loading: catLoading } = useCategories();
+
+    const [period, setPeriod] = useState<Period>("month");
+
+    const filteredCallbacks = useMemo(() => {
+        return callbacks.filter((cb) =>
+            isInPeriod(cb.created_at, period)
+        );
+    }, [callbacks, period]);
+
+    const callbacksByMonth = useMemo(() => {
+        return filteredCallbacks.reduce<Record<string, number>>(
+            (acc, cb) => {
+                const key = monthKey(cb.created_at);
+                acc[key] = (acc[key] || 0) + 1;
+                return acc;
+            },
+            {}
+        );
+    }, [filteredCallbacks]);
+
+    const callbacksChartData = useMemo(() => {
+        return Object.keys(callbacksByMonth)
+            .sort()
+            .map((key) => {
+                const sample = filteredCallbacks.find(
+                    (c) => monthKey(c.created_at) === key
+                )!;
+                return {
+                    month: monthLabel(sample.created_at),
+                    callbacks: callbacksByMonth[key],
+                };
+            });
+    }, [callbacksByMonth, filteredCallbacks]);
 
     if (cbLoading || prodLoading || catLoading) {
         return (
@@ -22,76 +120,91 @@ export default function DashboardPage() {
         );
     }
 
-    const calcChange = (current: number, previous: number) => {
-        if (previous === 0) return "+100%";
-        const diff = current - previous;
-        const percent = Math.round((diff / previous) * 100);
-        return `${percent > 0 ? "+" : ""}${percent}%`;
-    };
+    const currentMonthCallbacks =
+        callbacksChartData.at(-1)?.callbacks ?? 0;
+    const previousMonthCallbacks =
+        callbacksChartData.at(-2)?.callbacks ?? 0;
 
     const stats = [
         {
             label: "Всего продуктов",
             value: allProducts.length,
             icon: Package,
-            change: calcChange(allProducts.length, allProducts.length - 10),
+            change: calcChange(allProducts.length, allProducts.length - 1),
             color: "from-blue-500 to-blue-600",
         },
         {
             label: "Категорий",
             value: categories.length,
             icon: Layers,
-            change: calcChange(categories.length, categories.length - 2),
+            change: calcChange(categories.length, categories.length - 1),
             color: "from-purple-500 to-purple-600",
         },
         {
             label: "Заявок",
-            value: callbacks.length,
+            value: filteredCallbacks.length,
             icon: MessageSquare,
-            change: calcChange(callbacks.length, callbacks.length - 5),
+            change: calcChange(
+                currentMonthCallbacks,
+                previousMonthCallbacks
+            ),
             color: "from-amber-600 to-amber-700",
         },
     ];
 
-    const callbacksChartData = Array.from({ length: 6 }, (_, i) => {
-        const monthNames = ["Янв", "Фев", "Мар", "Апр", "Май", "Июн"];
-        const current = callbacks.length / 6;
-        const previous = (callbacks.length / 6) * (i > 0 ? i : 0.5);
-        return { month: monthNames[i], callbacks: Math.round(current + previous) };
-    });
-
-    // const getStatusBadge = (status: string) => {
-    //     const styles = {
-    //         new: "bg-blue-100 text-blue-700",
-    //         processing: "bg-yellow-100 text-yellow-700",
-    //         completed: "bg-green-100 text-green-700",
-    //     };
-    //     const labels = {
-    //         new: "Новая",
-    //         processing: "В обработке",
-    //         completed: "Завершена",
-    //     };
-    //     return (
-    //         <span className={`px-3 py-1 rounded-full text-xs font-medium ${styles[status as keyof typeof styles]}`}>
-    //             {labels[status as keyof typeof labels] || status}
-    //         </span>
-    //     );
-    // };
-
-    const latestCallbacks = callbacks.slice(-5).reverse();
+    const latestCallbacks = [...filteredCallbacks]
+        .sort(
+            (a, b) =>
+                new Date(b.created_at).getTime() -
+                new Date(a.created_at).getTime()
+        )
+        .slice(0, 4);
 
     return (
         <div className="space-y-8">
-            <div>
-                <h1 className="text-3xl font-bold text-neutral-800">Дашборд</h1>
-                <p className="text-neutral-500 mt-1">Аналитика и последние события</p>
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-neutral-800">
+                        Дашборд
+                    </h1>
+                    <p className="text-neutral-500 mt-1">
+                        Аналитика и последние события
+                    </p>
+                </div>
+
+                <div className="flex gap-2">
+                    {[
+                        { key: "week", label: "Неделя" },
+                        { key: "month", label: "Месяц" },
+                        { key: "year", label: "Год" },
+                        { key: "all", label: "Всё время" },
+                    ].map((p) => (
+                        <button
+                            key={p.key}
+                            onClick={() => setPeriod(p.key as Period)}
+                            className={`px-4 py-2 rounded-xl text-sm font-medium transition
+                                ${
+                                    period === p.key
+                                        ? "bg-neutral-900 text-white"
+                                        : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                                }`}
+                        >
+                            {p.label}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {stats.map((stat, index) => (
-                    <div key={index} className="bg-white rounded-2xl p-6 border border-neutral-200 shadow-sm">
+                    <div
+                        key={index}
+                        className="bg-white rounded-2xl p-6 border border-neutral-200"
+                    >
                         <div className="flex items-start justify-between mb-4">
-                            <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color} shadow-lg shadow-neutral-200`}>
+                            <div
+                                className={`p-3 rounded-xl bg-gradient-to-br ${stat.color}`}
+                            >
                                 <stat.icon className="w-6 h-6 text-white" />
                             </div>
                             <span className="text-sm font-medium text-green-600 flex items-center gap-1">
@@ -99,88 +212,109 @@ export default function DashboardPage() {
                                 {stat.change}
                             </span>
                         </div>
-                        <h3 className="text-3xl font-bold text-neutral-800">{stat.value}</h3>
-                        <p className="text-sm text-neutral-500 mt-1">{stat.label}</p>
+                        <h3 className="text-3xl font-bold text-neutral-800">
+                            {stat.value}
+                        </h3>
+                        <p className="text-sm text-neutral-500 mt-1">
+                            {stat.label}
+                        </p>
                     </div>
                 ))}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded-2xl p-6 border border-neutral-200 shadow-sm">
-                    <h2 className="text-lg font-bold text-neutral-800 mb-6">Заявки по месяцам</h2>
-                    <div className="h-[300px] w-full">
+                <div className="bg-white rounded-2xl p-6 border border-neutral-200">
+                    <h2 className="text-lg font-bold mb-6">
+                        Заявки по месяцам
+                    </h2>
+                    <div className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={callbacksChartData}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#a3a3a3', fontSize: 12}} dy={10} />
-                                <YAxis axisLine={false} tickLine={false} tick={{fill: '#a3a3a3', fontSize: 12}} />
-                                <Tooltip contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}} />
-                                <Line type="monotone" dataKey="callbacks" stroke="#b45309" strokeWidth={3} dot={{r: 6, fill: '#b45309', strokeWidth: 2, stroke: '#fff'}} activeDot={{r: 8}} />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                <XAxis dataKey="month" />
+                                <YAxis />
+                                <Tooltip />
+                                <Line
+                                    type="monotone"
+                                    dataKey="callbacks"
+                                    stroke="#b45309"
+                                    strokeWidth={3}
+                                />
                             </LineChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-2xl p-6 border border-neutral-200 shadow-sm">
-                    <h2 className="text-lg font-bold text-neutral-800 mb-6">Динамика</h2>
-                    <div className="h-[300px] w-full">
+                <div className="bg-white rounded-2xl p-6 border border-neutral-200">
+                    <h2 className="text-lg font-bold mb-6">
+                        Динамика
+                    </h2>
+                    <div className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={callbacksChartData}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#a3a3a3', fontSize: 12}} dy={10} />
-                                <YAxis axisLine={false} tickLine={false} tick={{fill: '#a3a3a3', fontSize: 12}} />
-                                <Tooltip cursor={{fill: '#f8f8f8'}} contentStyle={{borderRadius: '12px', border: 'none'}} />
-                                <Bar dataKey="callbacks" fill="#262626" radius={[6, 6, 0, 0]} barSize={40} />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                <XAxis dataKey="month" />
+                                <YAxis />
+                                <Tooltip />
+                                <Bar
+                                    dataKey="callbacks"
+                                    fill="#262626"
+                                    radius={[6, 6, 0, 0]}
+                                />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden">
-                <div className="p-6 border-b border-neutral-100 flex items-center justify-between">
-                    <h2 className="text-lg font-bold text-neutral-800">Последние заявки</h2>
+            <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+                <div className="p-6 border-b border-neutral-100">
+                    <h2 className="text-lg font-bold">
+                        Последние заявки
+                    </h2>
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead className="bg-neutral-50">
-                            <tr>
-                                <th className="px-6 py-4 text-xs font-bold text-neutral-500 uppercase tracking-wider">ID</th>
-                                <th className="px-6 py-4 text-xs font-bold text-neutral-500 uppercase tracking-wider">Клиент</th>
-                                <th className="px-6 py-4 text-xs font-bold text-neutral-500 uppercase tracking-wider">Телефон</th>
-                                <th className="px-6 py-4 text-xs font-bold text-neutral-500 uppercase tracking-wider">Сообщение</th>
+                <table className="w-full text-left">
+                    <thead className="bg-neutral-50">
+                        <tr>
+                            <th className="px-6 py-4 text-xs font-bold text-neutral-500">
+                                ID
+                            </th>
+                            <th className="px-6 py-4 text-xs font-bold text-neutral-500">
+                                Клиент
+                            </th>
+                            <th className="px-6 py-4 text-xs font-bold text-neutral-500">
+                                Телефон
+                            </th>
+                            <th className="px-6 py-4 text-xs font-bold text-neutral-500">
+                                Дата
+                            </th>
+                            <th className="px-6 py-4 text-xs font-bold text-neutral-500">
+                                Сообщение
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100">
+                        {latestCallbacks.map((cb) => (
+                            <tr key={cb.id}>
+                                <td className="px-6 py-4 text-sm text-neutral-400">
+                                    #{cb.id}
+                                </td>
+                                <td className="px-6 py-4 text-sm font-medium">
+                                    {cb.fullname}
+                                </td>
+                                <td className="px-6 py-4 text-sm text-neutral-600">
+                                    {cb.phone}
+                                </td>
+                                <td className="px-6 py-4 text-sm text-neutral-500">
+                                    {formatDate(cb.created_at)}
+                                </td>
+                                <td className="px-6 py-4 text-sm text-neutral-500 max-w-xs truncate">
+                                    {cb.message || "—"}
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody className="divide-y divide-neutral-100">
-                            {latestCallbacks.length > 0 ? (
-                                latestCallbacks.map((cb) => (
-                                    <tr key={cb.id} className="hover:bg-neutral-50 transition-colors">
-                                        <td className="px-6 py-4 text-sm text-neutral-400 font-mono">
-                                            #{cb.id}
-                                        </td>
-                                        <td className="px-6 py-4 text-sm font-medium text-neutral-800">
-                                            {cb.fullname}
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-neutral-600">
-                                            <a href={`${cb.phone}`} className="hover:text-amber-700 transition-colors">
-                                                {cb.phone}
-                                            </a>
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-neutral-500 max-w-xs truncate">
-                                            {cb.message || "—"} 
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={4} className="px-6 py-10 text-center text-neutral-400">
-                                        Новых заявок пока нет
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
