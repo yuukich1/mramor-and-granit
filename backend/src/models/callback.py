@@ -14,4 +14,4 @@ class Callback(BaseSQLModels):
     created_at: Mapped[datetime] = mapped_column(default=datetime.now())
 
     def to_schemas(self) -> CallbackSchema:
-        return CallbackSchema(id=self.id, phone=self.phone, fullname=self.fullname, message=self.message)
+        return CallbackSchema(id=self.id, phone=self.phone, fullname=self.fullname, message=self.message, created_at=self.created_at)
