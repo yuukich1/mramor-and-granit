@@ -1,9 +1,5 @@
 # Mramor and Granit 🪨
 
-A modern full-stack e-commerce platform for marble and granite products, featuring a FastAPI backend and Next.js 16 frontend with containerization support.
-
-# 🏛️ Mramor and Granit: Premium E-commerce Platform
-
 [![Stack: Next.js 16](https://img.shields.io/badge/Frontend-Next.js%2016-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![Stack: FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Database: PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
