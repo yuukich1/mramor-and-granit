@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://samara-mig.ru"),
   title: "Мрамор и Гранит",
   description: "Закажите памятник из натурального гранита и мрамора в компании «Мрамор и Гранит». Работаем с 2009 года. Гарантия качества, собственное производство, установка и благоустройство. Оставьте заявку на сайте!",
 
@@ -25,10 +26,19 @@ export const metadata: Metadata = {
     "заказать памятник на могилу"
   ],
 
+  verification: {
+    yandex: "9556c881d8d87ad2",
+  },
+
+  alternates: {
+    canonical: "/",
+  },
+
   openGraph: {
     title: "Мрамор и Гранит",
     description: "Профессиональное изготовление памятников с 2009 года. Посмотрите наш каталог и рассчитайте стоимость на сайте.",
     siteName: "Мрамор и Гранит",
+    url: "https://samara-mig.ru",
     images: [
       {
         url: "/site-preview.png",
