@@ -2,6 +2,27 @@
 
 A modern full-stack e-commerce platform for marble and granite products, featuring a FastAPI backend and Next.js 16 frontend with containerization support.
 
+# 🏛️ Mramor and Granit: Premium E-commerce Platform
+
+[![Stack: Next.js 16](https://img.shields.io/badge/Frontend-Next.js%2016-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![Stack: FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Database: PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
+[![DevOps: Docker](https://img.shields.io/badge/DevOps-Docker-2496ED?style=flat-square&logo=docker)](https://www.docker.com/)
+[![Architecture: Clean](https://img.shields.io/badge/Architecture-Clean%20Layered-orange?style=flat-square)](#architecture-overview)
+
+A high-end, production-ready e-commerce solution tailored for the natural stone industry. This platform features a blazing-fast **FastAPI** backend and a cutting-edge **Next.js 16** (React 19) frontend, delivering a seamless experience from product discovery to callback request.
+
+[🚀 Мрамор и Гранит](https://samara-mig.ru)
+
+---
+
+## 💎 Project Highlights
+
+* **Cutting-Edge Stack**: Next.js 16 + React 19 + Tailwind CSS 4.
+* **Industrial Backend**: FastAPI with Async SQLAlchemy 2.0 and Unit of Work pattern.
+* **Smart Notifications**: Real-time Telegram alerts for customer inquiries via `aiogram`.
+* **DevOps First**: Fully containerized with optimized Docker images for development and production.
+
 ## Overview
 
 This is a complete e-commerce platform built with:
