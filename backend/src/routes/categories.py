@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import APIRouter
+from fastapi_cache.decorator import cache
 from loguru import logger
 from src.service.categories import CategoriesService
 from src.dependencies import UOWdep, AdminDep
@@ -12,6 +13,7 @@ async def create(data: CategoryCreateSchemas, uow: UOWdep, admin: AdminDep) -> C
     logger.debug(f"POST /categories - Creating category: {data.name}")
     return await CategoriesService.create(data, uow)
 
+@cache(expire=3600)
 @router.get('/')
 async def get_categories_by_filter(uow: UOWdep, name: str | None = None, id: int | None= None) -> List[CategorySchemas]:
     logger.debug(f"GET /categories - Filters: name={name}, id={id}")

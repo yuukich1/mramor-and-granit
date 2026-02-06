@@ -3,7 +3,7 @@ name = "mramor-and-granit"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Your Name",email = "you@example.com"}
+    {name = "yuukich1",email = "ultimapgg@gmail.com"}
 ]
 
 requires-python = ">=3.12,<3.15"
@@ -18,7 +18,8 @@ dependencies = [
     "aiogram (>=3.24.0,<4.0.0)",
     "passlib (>=1.7.4,<2.0.0)",
     "pyjwt (>=2.10.1,<3.0.0)",
-    "psycopg2 (>=2.9.11,<3.0.0)"
+    "psycopg2 (>=2.9.11,<3.0.0)",
+    "fastapi-cache2 (>=0.2.2,<0.3.0)"
 ]
 
 [tool.poetry]

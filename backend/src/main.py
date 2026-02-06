@@ -3,7 +3,8 @@ from loguru import logger
 from starlette.middleware.cors import CORSMiddleware
 from src.routes import *
 from src.config import frontend_host
-
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.inmemory import InMemoryBackend
 
 app = FastAPI()
 
@@ -37,6 +38,7 @@ logger.info("FastAPI application initialized successfully")
 @app.on_event("startup")
 async def startup_event():
     logger.info("Application startup - API is ready to accept requests")
+    FastAPICache.init(InMemoryBackend())
 
 
 @app.on_event("shutdown")

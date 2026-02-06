@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import APIRouter, UploadFile
+from fastapi_cache.decorator import cache
 from loguru import logger
 from starlette.responses import FileResponse
 from src.schemas.products import ProductCreateSchemas, ProductSchema, ProductWithCategorySchema, ProductUpdateSchemas
@@ -18,6 +19,7 @@ async def update(id: int, file: UploadFile, uow: UOWdep, admin: AdminDep) -> Pro
     logger.debug(f"PATCH /products/image/{id} - Uploading file: {file.filename}")
     return await ProductsService.upload_image_by_product(product_id=id, file=file, uow=uow)
 
+@cache(expire=3600)
 @router.get('/')
 async def get_products_by_filter(uow: UOWdep, limit: int = 20, page: int = 0, name: str | None = None, id: int | None= None, price: float | None = None) -> List[ProductSchema]:
     logger.debug(f"GET /products - Filters: name={name}, id={id}, price={price}, limit={limit}, page={page}")
