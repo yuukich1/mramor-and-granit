@@ -26,6 +26,22 @@ export function useProducts({
   const [visibleCount, setVisibleCount] = useState(initialVisible);
   const [loading, setLoading] = useState(false);
 
+
+const refreshProducts = async () => {
+  setLoading(true);
+  try {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products/`, {
+      params: { limit: apiLimit },
+    });
+    setAllProducts(res.data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -66,5 +82,8 @@ export function useProducts({
     resetVisible,
     hasMore,
     loading,
+    refreshProducts,
   };
 }
+
+
