@@ -91,7 +91,7 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-3 hover:text-amber-400 transition-colors cursor-pointer group">
               <div className="p-2 bg-neutral-800 rounded-lg group-hover:bg-amber-900/30 transition-colors">
-                <Mail className="w-5 h-5" />
+                <Phone className="w-5 h-5" />
               </div>
               <div>
                 <p className="font-medium">+7 (937) 989-01-53</p>

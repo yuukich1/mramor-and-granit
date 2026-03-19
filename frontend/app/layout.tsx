@@ -15,20 +15,38 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://samara-mig.ru"),
-  title: "Мрамор и Гранит",
+  title: {
+    default: "Мрамор и Гранит | Памятники в Самаре",
+    template: "%s | Мрамор и Гранит", 
+  },
   description: "Закажите памятник из натурального гранита и мрамора в компании «Мрамор и Гранит». Работаем с 2009 года. Гарантия качества, собственное производство, установка и благоустройство. Оставьте заявку на сайте!",
 
 
   keywords: [
     "изготовление памятников Самара",
     "памятники из гранита цена",
-    "купить надгобие",
+    "купить надгробие",
     "мемориальные комплексы",
-    "заказать памятник на могилу"
+    "заказать памятник на могилу",
+    "благоустройство захоронений Самара",
+    "гранитная мастерская",
+    "памятники из мрамора",
+    "установка памятников",
+    "Мрамор и Гранит Самара",
   ],
+
+  authors: [{ name: "Мрамор и Гранит" }],
+  creator: "Мрамор и Гранит",
+  publisher: "Мрамор и Гранит",
+  formatDetection: {
+    email: false,
+    address: true,
+    telephone: true, 
+  },
 
   verification: {
     yandex: "9556c881d8d87ad2",
+    google: "Q_9sRKB3LcmSLkhOG4UxmGtBgpm61lqP1fUeSoR86xw",
   },
 
   alternates: {
@@ -45,6 +63,7 @@ export const metadata: Metadata = {
         url: "/site-preview.png",
         width: 1200,
         height: 630,
+        alt: "Мастерская Мрамор и Гранит Самара",
       },
     ],
     locale: "ru_RU",
@@ -62,6 +81,12 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+
+  icons: {
+    icon: "/favicon.ico",
+  }
+
+
 };
 
 export default function RootLayout({

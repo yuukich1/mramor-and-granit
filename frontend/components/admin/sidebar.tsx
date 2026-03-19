@@ -8,7 +8,7 @@ import { LayoutDashboard, Package, Layers, MessageSquare, LogOut, Menu, X } from
 
 const menuItems = [
   { path: "/admin", label: "Дашборд", icon: LayoutDashboard },
-  { path: "/admin/products", label: "Продукты", icon: Package },
+  { path: "/admin/products", label: "Товар", icon: Package },
   { path: "/admin/categories", label: "Категории", icon: Layers },
   { path: "/admin/callbacks", label: "Заявки", icon: MessageSquare },
 ];

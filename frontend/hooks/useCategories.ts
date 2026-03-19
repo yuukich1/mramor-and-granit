@@ -8,23 +8,23 @@ export function useCategories() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            setLoading(true);
-            try {
-                const res = await axios.get<Category[]>(
-                    `${process.env.NEXT_PUBLIC_API_URL}/categories/`
-                );
-                setCategories(res.data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchCategories = async () => {
+        setLoading(true);
+        try {
+            const res = await axios.get<Category[]>(
+                `${process.env.NEXT_PUBLIC_API_URL}/categories/`
+            );
+            setCategories(res.data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchCategories();
     }, []);
 
-    return { categories, loading };
+    return { categories, loading, refreshCategories: fetchCategories };
 }
