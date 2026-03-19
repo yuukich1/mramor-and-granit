@@ -29,9 +29,9 @@ export function ProductCard({
             className="h-full"
         >
 
-            <Card className="overflow-hidden h-full flex flex-row sm:flex-col bg-white border-neutral-200 group hover:shadow-2xl transition-all duration-500">
+            <Card className="overflow-hidden h-full flex flex-row sm:flex-col bg-white border-neutral-200 group hover:shadow-2xl transition-all duration-500 max-w-[calc(100vw-2rem)] mx-auto">
                 
-                <div className="relative w-1/3 sm:w-full aspect-square sm:aspect-[3/4] bg-neutral-100 overflow-hidden shrink-0">
+                <div className="relative w-1/3 sm:w-full aspect-square sm:aspect-[3/4] bg-neutral-100 overflow-hidden flex-shrink-0">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-10 hidden sm:block" />
 
                     <div className="absolute bottom-4 left-4 z-20 hidden sm:block">
@@ -52,17 +52,17 @@ export function ProductCard({
                 </div>
 
 
-                <div className="flex flex-col flex-grow min-w-0">
-                    <CardContent className="p-4 sm:p-6 flex-grow">
-                        <p className="text-xs sm:text-sm text-neutral-500 mb-1">
+                <div className="flex flex-col flex-grow min-w-0 overflow-hidden">
+                    <CardContent className="p-3 sm:p-6 flex-grow flex flex-col justify-center sm:justify-start">
+                        <p className="text-[10px] sm:text-sm text-neutral-500 mb-0.5 sm:mb-1 truncate">
                             {categoryName}
                         </p>
                         
-                        <h3 className="text-lg sm:text-2xl font-serif text-neutral-800 mb-1 sm:mb-2 truncate sm:whitespace-normal group-hover:text-amber-800 transition-colors">
+                        <h3 className="text-sm sm:text-2xl font-serif text-neutral-800 mb-1 sm:mb-2 leading-tight line-clamp-2 sm:whitespace-normal group-hover:text-amber-800 transition-colors">
                             {product.name}
                         </h3>
 
-                        <div className="text-amber-900 font-bold text-lg sm:hidden">
+                        <div className="text-amber-900 font-bold text-sm sm:hidden mt-1">
                             {getProductPriceLabel(product)}
                         </div>
                     </CardContent>
