@@ -21,7 +21,7 @@ export function CallbackContacts() {
         {
             icon: MapPin,
             title: "Адрес",
-            content: ["Село Черноречье, ул. Нижние Пески, 12/2"],
+            content: ["Самара, улица Победы, 84"],
             color: "bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200",
             iconBg: "bg-emerald-600",
         },
