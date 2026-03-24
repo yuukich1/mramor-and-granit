@@ -15,9 +15,7 @@ export function UsServices() {
     <section
       id="services"
       className="relative py-20 overflow-hidden bg-white"
-        // bg-gradient-to-br from-neutral-50 via-amber-50/30 to-neutral-50
     >
-      {/* <div className="absolute top-0 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/20 to-transparent rounded-full blur-3xl" /> */}
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div

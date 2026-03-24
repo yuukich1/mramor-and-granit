@@ -23,10 +23,10 @@ export function About() {
           >
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl ">
               <Image
-                src="/aboutIMG.jpg"
+                src="/aboutIMG2.jpg"
                 alt="О компании"
                 fill
-                className="object-cover scale-170"
+                className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
